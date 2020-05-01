@@ -1,0 +1,23 @@
+{
+  "name": "mybroker-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server",
+    "build:sw": "workbox injectManifest workbox-config.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "materialize-css": "^0.98.0",
+    "pouchdb": "^7.1.1"
+  },
+  "devDependencies": {
+    "@types/materialize-css": "^0.98.0",
+    "@types/pouchdb": "^6.4.0",
+    "@types/workbox-sw": "^4.2.0",
+    "http-server": "0.9.0"
+  }
+}
