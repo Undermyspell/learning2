@@ -1,21 +1,7 @@
-const path = require("path");
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-
 module.exports = {
     entry: "./src/app/app.js",
-    plugins: [new HtmlWebPackPlugin({
-        template: "./src/template.html"
-    })],
     module: {
         rules: [
-            {
-                test: /\.(scss|css)$/,
-                use: [
-                    "style-loader",
-                    "css-loader",
-                    "sass-loader"
-                ]
-            },
             {
                 test: /\.html$/,
                 use: ["html-loader"]
