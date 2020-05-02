@@ -1,16 +1,61 @@
 :root {
   font-size: 16px;
-  --text-primary: #b6b6b6;
-  --text-secondary: #ececec;
-  --bg-primary: #23232e;
-  --bg-secondary: #141418;
+  --gray0: #f8f8f8;
+  --gray1: #dbe1e8;
+  --gray2: #b2becd;
+  --gray3: #6c7983;
+  --gray4: #454e56;
+  --gray5: #2a2e35;
+  --gray6: #12181b;
+  --blue: #0084a5;
+  --yellow: #fff565;
+  --pink-1: #df49a6;
+}
+
+.light {
+  --bg: var(--gray0);
+  --bg-nav: linear-gradient(to right, var(--gray1), var(--gray3));
+  --bg-dropdown: var(--gray0);
+  --text: var(--gray6);
+  --bg-solar: var(--yellow);
+  --icon-background: var(--pink-1);
+}
+
+.dark {
+  --bg: var(--gray5);
+  --bg-nav: linear-gradient(to right, var(--gray5), var(--gray6));
+  --bg-dropdown: var(--gray6);
+  --text: var(--gray0);
+  --bg-solar: var(--blue);
+  --icon-background: var(--pink-1);
+}
+
+.solar {
+  --gray0: #fbffd4;
+  --gray1: #f7f8d0;
+  --gray2: #b6f880;
+  --gray3: #5ec72d;
+  --gray4: #3ea565;
+  --gray5: #005368;
+  --gray6: #003d4c;
 }
 
 body {
-  color: black;
-  background-color: white;
   margin: 0;
   padding: 0;
+  color: var(--text);
+  background: var(--bg);
+  transition: background 500ms ease-in-out, color 1000ms ease-in-out;
+}
+
+header {
+  padding: 1rem;
+  background: var(--bg-nav);
+  margin-bottom: 1rem;
+  padding-bottom: 3.5rem;
+  text-align: center;
+  clip-path: polygon(50% 0, 100% 0, 100% 65%, 50% 100%, 0% 65%, 0% 0%);
+  margin-left: 5rem;
 }
 
 main {
@@ -20,8 +65,10 @@ main {
 
 .navbar {
   position: fixed;
-  background: var(--bg-primary);
+  background: var(--bg-nav);
+  color: var(--text);
   transition: width 200ms ease;
+  z-index: 2;
 }
 
 body::-webkit-scrollbar {
@@ -54,10 +101,16 @@ body::-webkit-scrollbar-thumb {
   display: flex;
   align-items: center;
   height: 5rem;
-  color: var(--text-primary);
+  color: currentColor;
   text-decoration: none;
   transition: all 400ms;
   filter: grayscale(100%) opacity(0.7);
+
+  svg {
+    min-width: 2rem;
+    margin: 0 1.5rem;
+    color: var(--icon-background);
+  }
 
   &:hover {
     background: var(--bg-secondary);
@@ -69,14 +122,6 @@ body::-webkit-scrollbar-thumb {
 .link-text {
   display: none;
   margin-left: 1rem;
-}
-
-.nav-link {
-  svg {
-    min-width: 2rem;
-    margin: 0 1.5rem;
-    color: #df49a6;
-  }
 }
 
 .nav-item:last-child {
