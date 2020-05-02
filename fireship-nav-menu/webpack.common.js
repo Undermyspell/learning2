@@ -14,7 +14,7 @@ module.exports = {
                         name: "[name].[hash].[ext]",
                         outputPath: "imgs"
                     }
-                },
+                }
             },
             {
                 test: /\.(eot|ttf|woff|woff2)$/,
@@ -24,7 +24,7 @@ module.exports = {
                         name: "[name].[hash].[ext]",
                         outputPath: "webfonts"
                     }
-                },
+                }
             }
         ]
     }
