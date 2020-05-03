@@ -10,7 +10,7 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 module.exports = merge(common, {
     mode: "production",
     output: {
-        filename: "main.[contentHash].bundle.js",
+        filename: "[name].[contentHash].bundle.js",
         path: path.resolve(__dirname, "dist")
     },
     // MiniCssExtractPlugin already minifies css...
@@ -18,12 +18,23 @@ module.exports = merge(common, {
     //     minimizer: [new OptimizeCssAssetsPlugin(), new TerserPlugin()]
     // },
     plugins: [new HtmlWebPackPlugin({
-        template: "./src/template.html", 
+        template: "./src/template.html",
         minify: {
             removeAttributeQuotes: true,
             collapseWhitespace: true,
             removeComments: true
-        }
+        },
+        chunks: ["main"],
+        filename: "index.html"
+    }), new HtmlWebPackPlugin({
+        template: "./src/gallery.html",
+        minify: {
+            removeAttributeQuotes: true,
+            collapseWhitespace: true,
+            removeComments: true
+        },
+        chunks: ["gallery"],
+        filename: "gallery.html"
     }), new MiniCssExtractPlugin({
         filename: "[name].[contenthash].css"
     }
@@ -37,5 +48,10 @@ module.exports = merge(common, {
                 "sass-loader" // 1. turns sass into css
             ]
         }],
+    },
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+        }
     },
 });

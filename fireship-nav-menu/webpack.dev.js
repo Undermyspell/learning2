@@ -6,11 +6,17 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 module.exports = merge(common, {
     mode: "development",
     output: {
-        filename: "main.js",
+        filename: "[name].bundle.js",
         path: path.resolve(__dirname, "dist")
     },
     plugins: [new HtmlWebPackPlugin({
-        template: "./src/template.html"
+        template: "./src/template.html",
+        chunks: ["main"],
+        filename: "index.html"
+    }), new HtmlWebPackPlugin({
+        template: "./src/gallery.html",
+        chunks: ["gallery"],
+        filename: "gallery.html"
     })],
     module: {
         rules: [{

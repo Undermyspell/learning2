@@ -113,8 +113,6 @@ body::-webkit-scrollbar-thumb {
   }
 
   &:hover {
-    background: var(--bg-secondary);
-    color: var(--text-secondary);
     filter: grayscale(0%) opacity(1);
   }
 }
@@ -132,8 +130,6 @@ body::-webkit-scrollbar-thumb {
   font-weight: bold;
   text-transform: uppercase;
   margin-bottom: 1rem;
-  color: var(--text-secondary);
-  background: var(--bg-secondary);
   font-size: 1.5rem;
   letter-spacing: 0.3ch;
 
@@ -165,6 +161,13 @@ body::-webkit-scrollbar-thumb {
 .image {
   height: 300px;
   width: 400px;
+}
+
+.gallery-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-auto-rows: 240px;
 }
 
 @media only screen and (max-width: 600px) {

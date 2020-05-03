@@ -1,5 +1,8 @@
 module.exports = {
-    entry: "./src/app/app.js",
+    entry: {
+        main: "./src/app/app.js",
+        gallery: "./src/app/gallery.js",
+    },
     module: {
         rules: [
             {
