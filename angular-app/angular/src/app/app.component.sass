@@ -1,0 +1,32 @@
+
+.grid-container
+  display: grid
+  width: 100%
+  height: 100%
+  background: grey
+  grid-template-areas: "header header" "nav main" "footer footer"
+  grid-template-rows: 7rem 1fr 5rem
+  grid-template-columns: 5rem 1fr
+
+header
+  grid-area: header
+  background: yellow
+
+nav
+  grid-area: nav
+  background: blueviolet
+  transition: width 500ms ease
+  width: inherit
+  z-index: 22
+
+nav:hover
+  width: 10rem
+
+main
+  grid-area: main
+  background: darkgreen
+
+footer
+  grid-area: footer
+  background: brown
+
