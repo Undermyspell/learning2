@@ -3,133 +3,45 @@
   display: grid
   width: 100%
   height: 100%
-  background: grey
-  grid-template-areas: "header header" "nav main" "footer footer"
-  grid-template-rows: 7rem 1fr 5rem
-  grid-template-columns: 5rem 1fr
+  color: var(--text)
+  background: var(--bg)
+  transition: background 500ms ease-in-out, color 1000ms ease-in-out
 
 header
   grid-area: header
-  padding: 1rem
   background: var(--bg-nav)
-  text-align: center
   clip-path: polygon(50% 0, 100% 0, 100% 65%, 50% 100%, 0% 65%, 0% 0%)
-  margin-left: 5rem
- 
+  display: flex
+  align-items: center
+  justify-content: center
+
+  img
+    height: 80%
+    &:hover
+      animation: color-rotate 1s infinite alternate
+
+@keyframes color-rotate
+  0%
+    filter: hue-rotate(0deg)
+  100%
+    filter: hue-rotate(360deg)
+
 main
   grid-area: main
 
 footer
   grid-area: footer
 
-:root 
-  font-size: 16px
-  --gray0: #f8f8f8
-  --gray1: #dbe1e8
-  --gray2: #b2becd
-  --gray3: #6c7983
-  --gray4: #454e56
-  --gray5: #2a2e35
-  --gray6: #12181b
-  --blue: #0084a5
-  --yellow: #fff565
-  --pink-1: #df49a6
-
-
-.light 
-  --bg: var(--gray0)
-  --bg-nav: linear-gradient(to right, var(--gray1), var(--gray3))
-  --bg-dropdown: var(--gray0)
-  --text: var(--gray6)
-  --bg-solar: var(--yellow)
-  --icon-background: var(--pink-1)
-
-.dark 
-  --bg: var(--gray5)
-  --bg-nav: linear-gradient(to right, var(--gray5), var(--gray6))
-  --bg-dropdown: var(--gray6)
-  --text: var(--gray0)
-  --bg-solar: var(--blue)
-  --icon-background: var(--pink-1)
-
-.solar
-  --gray0: #fbffd4
-  --gray1: #f7f8d0
-  --gray2: #b6f880
-  --gray3: #5ec72d
-  --gray4: #3ea565
-  --gray5: #005368
-  --gray6: #003d4c
-
-body 
+body
   margin: 0
   padding: 0
   color: var(--text)
   background: var(--bg)
   transition: background 500ms ease-in-out, color 1000ms ease-in-out
 
-.navbar 
-  background: var(--bg-nav)
-  color: var(--text)
-  transition: width 200ms ease
+.navigation
   grid-area: nav
   z-index: 22
-
-.navbar-nav
-  list-style: none
-  padding: 0
-  margin: 0
-  display: flex
-  align-items: center
-  flex-direction: column
-  height: 100%
-
-.nav-item
-  width: 100%
-
-.nav-link
-  display: flex
-  align-items: center
-  height: 5rem
-  color: currentColor
-  text-decoration: none
-  transition: all 400ms
-  filter: grayscale(100%) opacity(0.7)
-
-  svg
-    min-width: 2rem
-    margin: 0 1.5rem
-    color: var(--icon-background)
-
-  &:hover
-    filter: grayscale(0%) opacity(1)
-
-.link-text
-  display: none
-  margin-left: 1rem
-
-.nav-item:last-child
-  margin-top: auto
-
-.logo
-  font-weight: bold
-  text-transform: uppercase
-  margin-bottom: 1rem
-  font-size: 1.5rem
-  letter-spacing: 0.3ch
-
-  svg
-    transform: rotate(0deg)
-    transition: transform 400ms
-
-.navbar:hover
-  .logo
-    svg 
-      transform: rotate(-180deg)
-
-.image
-  height: 300px
-  width: 400px
 
 .gallery-grid
   display: grid
@@ -138,31 +50,16 @@ body
   grid-auto-rows: 240px
 
 @media only screen and (max-width: 600px)
-  .navbar
-    bottom: 0
-    width: 100vw
-    height: 5rem
-
-  .logo
-    display: none
-
-  .navbar-nav
-    flex-direction: row
-
-  .nav-link
-    justify-content: center
+  .grid-container
+    grid-template-areas: "header" "main" "nav"
+    grid-template-rows: 7rem 1fr 5rem
+    grid-template-columns: 1fr
 
   main
     margin: 0
 
-@media only screen and (min-width: 600px) 
-  .navbar 
-    top: 0
-    width: 5rem
-    height: 100vh
-
-    &:hover
-      width: 16rem
-
-      .link-text 
-        display: block
+@media only screen and (min-width: 600px)
+  .grid-container
+    grid-template-areas: "nav header" "nav main" "nav footer"
+    grid-template-rows: 10rem 1fr 5rem
+    grid-template-columns: 5rem 1fr
