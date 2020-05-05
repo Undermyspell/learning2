@@ -1,8 +1,8 @@
-<div class="grid-container dark">
+<div [themeable]="theme" class="grid-container">
   <header>
     <img src="../assets/logo.png" class="logo-header">
   </header>
-  <app-nav class="navigation"></app-nav>
+  <app-nav class="navigation" (changeTheme)="onChangeTheme($event)" (changeSolar)="onChangeSolar()"></app-nav>
   <main>
     <router-outlet></router-outlet>
   </main>

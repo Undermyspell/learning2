@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { ThemeableDirective } from './directives/themeable.directive';
+import { Component, ViewChild } from '@angular/core';
+import { Theme } from "./enums/theme.enum";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,15 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular';
+  theme: Theme = Theme.dark;
+
+  @ViewChild(ThemeableDirective) themeable: ThemeableDirective;
+
+  onChangeTheme(theme: Theme): void {
+    this.theme = theme;
+  }
+
+  onChangeSolar(): void {
+    this.themeable.toggleSolar()
+  }
 }

@@ -6,12 +6,16 @@ import { AppComponent } from './app.component';
 import { NavComponent } from './home/nav/nav.component';
 import { ContainerComponent } from './gallery/container/container.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ImageClassDirective } from './directives/image-class.directive';
+import { ThemeableDirective } from './directives/themeable.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
-    ContainerComponent
+    ContainerComponent,
+    ImageClassDirective,
+    ThemeableDirective
   ],
   imports: [
     BrowserModule,
