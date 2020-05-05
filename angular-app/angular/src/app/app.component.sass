@@ -6,6 +6,7 @@
   color: var(--text)
   background: var(--bg)
   transition: background 500ms ease-in-out, color 1000ms ease-in-out
+  overflow: hidden
 
 header
   grid-area: header
@@ -28,9 +29,7 @@ header
 
 main
   grid-area: main
-
-footer
-  grid-area: footer
+  overflow-y: auto
 
 body
   margin: 0
@@ -60,6 +59,6 @@ body
 
 @media only screen and (min-width: 600px)
   .grid-container
-    grid-template-areas: "nav header" "nav main" "nav footer"
-    grid-template-rows: 10rem 1fr 5rem
+    grid-template-areas: "nav header" "nav main"
+    grid-template-rows: 10rem 1fr
     grid-template-columns: 5rem 1fr
