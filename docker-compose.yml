@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  frontend:
+    build:
+      context: ./angular-app/angular
+      dockerfile: Dockerfile.Dev
+    volumes:
+      - /app/node_modules
+      - ./angular-app/angular:/app
+  api:
+    build:
+      context: "./nodejs-api"
+      dockerfile: Dockerfile.Dev
+    volumes:
+      - /app/node_modules
+      - ./nodejs-api:/app
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile.Dev
+      context: ./nginx
+    depends_on:
+      - frontend
+      - api
+    ports:
+      - 4711:80
