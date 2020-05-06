@@ -2,14 +2,14 @@ version: "3.7"
 services:
   frontend:
     build:
-      context: ./angular-app/angular
+      context: ./angular
       dockerfile: Dockerfile.Dev
     volumes:
       - /app/node_modules
-      - ./angular-app/angular:/app
+      - ./angular:/app
   api:
     build:
-      context: "./nodejs-api"
+      context: ./nodejs-api
       dockerfile: Dockerfile.Dev
     volumes:
       - /app/node_modules
