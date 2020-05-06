@@ -11,7 +11,7 @@ export class GalleryService {
   constructor(private readonly http: HttpClient) { }
 
   getImageUrls(): Observable<string[]> {
-    return this.http.get<string[]>("http://localhost:3000/imageurls")
-      .pipe(map(urls => urls.map(url => `http://localhost:3000/images/${url}`)));
+    return this.http.get<string[]>("api/imageurls")
+      .pipe(map(urls => urls.map(url => `api/images/${url}`)));
   }
 }
