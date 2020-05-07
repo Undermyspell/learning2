@@ -18,8 +18,8 @@ script:
 after_success:
   # push to dockerhub & heroku 
   # - docker push $DOCKER_USERNAME/docker_client;
-  - docker push registry.heroku.com/$HEROKU_APP_CLIENT/web;
-  - heroku container:release web --app $HEROKU_APP_CLIENT;
+  - docker push registry.heroku.com/$HEROKU_APP_FRONTEND/web;
+  - heroku container:release web --app $HEROKU_APP_FRONTEND;
   # - docker push $DOCKER_USERNAME/docker_backend;
   - docker push registry.heroku.com/$HEROKU_APP_BACKEND/web;
   - heroku container:release web --app $HEROKU_APP_BACKEND;
