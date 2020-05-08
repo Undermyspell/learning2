@@ -20,7 +20,7 @@ app.get("/imageurls", (req, res, next) => {
         if (err) {
             return console.log('Unable to scan directory: ' + err);
         }
-        files.forEach(function (file) {
+        files.filter(file => file.match(/\.(svg|png|jpg|gif|svg)$/)).forEach(function (file) {
             filenames.push(file);
         });
 
