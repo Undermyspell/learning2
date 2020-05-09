@@ -7,25 +7,29 @@ before_install:
   #- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
 
-script:
-  - docker build -t $DOCKER_USERNAME/docker_frontend ./angular;
-  - docker tag $DOCKER_USERNAME/docker_frontend registry.heroku.com/$HEROKU_APP_FRONTEND/web;
-  - docker build -t $DOCKER_USERNAME/docker_backend ./nodejs-api;
-  - docker tag $DOCKER_USERNAME/docker_backend registry.heroku.com/$HEROKU_APP_BACKEND/web;
-  - docker build -t $DOCKER_USERNAME/docker_nginx ./nginx;
-  - docker tag $DOCKER_USERNAME/docker_nginx registry.heroku.com/$HEROKU_APP_NGINX/web;
-
-after_success:
-  # push to dockerhub & heroku 
-  # - docker push $DOCKER_USERNAME/docker_client;
-  - heroku container:login
-  - docker push registry.heroku.com/$HEROKU_APP_FRONTEND/web;
-  - heroku container:release web --app $HEROKU_APP_FRONTEND;
-  # - docker push $DOCKER_USERNAME/docker_backend;
-  - docker push registry.heroku.com/$HEROKU_APP_BACKEND/web;
-  - heroku container:release web --app $HEROKU_APP_BACKEND;
-  # - docker push $DOCKER_USERNAME/docker_nginx;
-  - docker push registry.heroku.com/$HEROKU_APP_NGINX/web;
-  - heroku container:release web --app $HEROKU_APP_NGINX;
-
-deploy:
+stages:
+  - build
+  - tag
+  - deploy
+  
+jobs:
+  include:
+    - stage: build               
+      name: "Build Docker images"           
+    - script: docker build -t $DOCKER_USERNAME/docker_frontend ./angular;
+    - script: docker build -t $DOCKER_USERNAME/docker_backend ./nodejs-api;
+    - script: docker build -t $DOCKER_USERNAME/docker_nginx ./nginx; 
+    - stage: tag
+      name: "Tag Docker images"
+    - script: docker tag $DOCKER_USERNAME/docker_frontend registry.heroku.com/$HEROKU_APP_FRONTEND/web;
+    - script: docker tag $DOCKER_USERNAME/docker_backend registry.heroku.com/$HEROKU_APP_BACKEND/web;
+    - script: docker tag $DOCKER_USERNAME/docker_nginx registry.heroku.com/$HEROKU_APP_NGINX/web; 
+    - stage: deploy
+      name: "Deploy Docker containers on Heroku"
+    - script: heroku container:login
+    - script: docker push registry.heroku.com/$HEROKU_APP_FRONTEND/web;
+    - script: heroku container:release web --app $HEROKU_APP_FRONTEND;
+    - script: docker push registry.heroku.com/$HEROKU_APP_BACKEND/web;
+    - script: heroku container:release web --app $HEROKU_APP_BACKEND;
+    - script: docker push registry.heroku.com/$HEROKU_APP_NGINX/web;
+    - script: heroku container:release web --app $HEROKU_APP_NGINX;
