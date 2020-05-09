@@ -3,7 +3,8 @@ WORKDIR /app
 COPY package*.json /app/
 RUN npm install
 COPY . .
-RUN npm run build -- --output-path=./dist/out
+ARG env=production
+RUN npm run build -- --output-path=./dist/out --configuration $env
 
 FROM nginx
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
