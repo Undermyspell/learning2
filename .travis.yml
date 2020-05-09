@@ -17,21 +17,21 @@ stages:
 jobs:
   include:
     - stage: build               
-      name: "Build Docker images"           
+      name: "Build Angular Frontend Docker image"           
       script: 
-        - docker build -t $DOCKER_USERNAME/docker_frontend ./angular
+        - docker build -t $DOCKER_USERNAME/docker_frontend --cache-from $DOCKER_USERNAME/docker_frontend ./angular
         - docker tag $DOCKER_USERNAME/docker_frontend registry.heroku.com/$HEROKU_APP_FRONTEND/web;
         - docker push registry.heroku.com/$HEROKU_APP_FRONTEND/web;
     - stage: build               
-      name: "Build Docker images"           
+      name: "Build Docker NodeJS/Express Api Docker Image"           
       script: 
-        - docker build -t $DOCKER_USERNAME/docker_backend ./nodejs-api
+        - docker build -t $DOCKER_USERNAME/docker_backend --cache-from $DOCKER_USERNAME/docker_backend  ./nodejs-api
         - docker tag $DOCKER_USERNAME/docker_backend registry.heroku.com/$HEROKU_APP_BACKEND/web;
         - docker push registry.heroku.com/$HEROKU_APP_BACKEND/web;
     - stage: build               
-      name: "Build Docker images"           
+      name: "Build Nginx Proxy Server Docker Image"           
       script: 
-        - docker build -t $DOCKER_USERNAME/docker_nginx ./nginx
+        - docker build -t $DOCKER_USERNAME/docker_nginx --cache-from $DOCKER_USERNAME/docker_nginx ./nginx
         - docker tag $DOCKER_USERNAME/docker_nginx registry.heroku.com/$HEROKU_APP_NGINX/web; 
         - docker push registry.heroku.com/$HEROKU_APP_NGINX/web;
     - stage: deploy
