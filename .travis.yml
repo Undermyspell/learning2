@@ -18,16 +18,18 @@ jobs:
   include:
     - stage: build               
       name: "Build Docker images"           
-      script: 
+      - script: 
         - docker build -t $DOCKER_USERNAME/docker_frontend ./angular
-        - docker build -t $DOCKER_USERNAME/docker_backend ./nodejs-api
-        - docker build -t $DOCKER_USERNAME/docker_nginx ./nginx
         - docker tag $DOCKER_USERNAME/docker_frontend registry.heroku.com/$HEROKU_APP_FRONTEND/web;
-        - docker tag $DOCKER_USERNAME/docker_backend registry.heroku.com/$HEROKU_APP_BACKEND/web;
-        - docker tag $DOCKER_USERNAME/docker_nginx registry.heroku.com/$HEROKU_APP_NGINX/web; 
         - docker push registry.heroku.com/$HEROKU_APP_FRONTEND/web;
+      - script:
+        - docker build -t $DOCKER_USERNAME/docker_backend ./nodejs-api
+        - docker tag $DOCKER_USERNAME/docker_backend registry.heroku.com/$HEROKU_APP_BACKEND/web;
         - docker push registry.heroku.com/$HEROKU_APP_BACKEND/web;
-        - docker push registry.heroku.com/$HEROKU_APP_NGINX/web;
+      - script:
+        - docker build -t $DOCKER_USERNAME/docker_nginx ./nginx
+        - docker tag $DOCKER_USERNAME/docker_nginx registry.heroku.com/$HEROKU_APP_NGINX/web; 
+        - docker push registry.heroku.com/$HEROKU_APP_NGINX/web; 
     - stage: deploy
       name: "Deploy Docker containers on Heroku"
       script: 
