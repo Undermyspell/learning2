@@ -19,7 +19,7 @@ jobs:
     - stage: build               
       name: "Build Angular Frontend Docker image"           
       script: 
-        - docker build -t $DOCKER_USERNAME/docker_frontendgit ./angular
+        - docker build -t $DOCKER_USERNAME/docker_frontend ./angular
         - docker tag $DOCKER_USERNAME/docker_frontend registry.heroku.com/$HEROKU_APP_FRONTEND/web;
         - docker push registry.heroku.com/$HEROKU_APP_FRONTEND/web;
     - stage: build               
