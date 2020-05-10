@@ -12,35 +12,38 @@ before_install:
   - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
 
 stages:
-  - build
-  - test
-  - deploy
+  - Build
+  - Test
+  - Deploy
   
 jobs:
   include:
-    - stage: build               
+    - stage: Test
+      name: "Run tests on the Angular Frontend"
+      script:
+        - docker build -t $DOCKER_USERNAME/docker_frontend_dev --build-arg env=$FRONTEND_ENVIRONMENT -f ./angular/Dockerfile.Dev ./angular
+        - docker tag $DOCKER_USERNAME/docker_frontend_dev registry.heroku.com/$HEROKU_APP_FRONTEND/web;
+        - docker push registry.heroku.com/$HEROKU_APP_FRONTEND/web;
+        - docker run --rm registry.heroku.com/$HEROKU_APP_FRONTEND/web npm run test -- --browsers=ChromeHeadless
+    - stage: Build               
       name: "Build Angular Frontend Docker image"           
       script: 
         - docker build -t $DOCKER_USERNAME/docker_frontend --build-arg env=$FRONTEND_ENVIRONMENT ./angular
         - docker tag $DOCKER_USERNAME/docker_frontend registry.heroku.com/$HEROKU_APP_FRONTEND/web;
         - docker push registry.heroku.com/$HEROKU_APP_FRONTEND/web;
-    - stage: build               
+    - stage: Build               
       name: "Build Docker NodeJS/Express Api Docker Image"           
       script: 
         - docker build -t $DOCKER_USERNAME/docker_backend ./nodejs-api
         - docker tag $DOCKER_USERNAME/docker_backend registry.heroku.com/$HEROKU_APP_BACKEND/web;
         - docker push registry.heroku.com/$HEROKU_APP_BACKEND/web;
-    - stage: build               
+    - stage: Build               
       name: "Build Nginx Proxy Server Docker Image"           
       script: 
         - docker build -t $DOCKER_USERNAME/docker_nginx ./nginx
         - docker tag $DOCKER_USERNAME/docker_nginx registry.heroku.com/$HEROKU_APP_NGINX/web; 
         - docker push registry.heroku.com/$HEROKU_APP_NGINX/web;
-    - stage: test
-      name: "Tests"
-      script:
-        - docker run --rm registry.heroku.com/$HEROKU_APP_FRONTEND/web npm run test -- --browsers=ChromeHeadless
-    - stage: deploy
+    - stage: Deploy
       name: "Deploy Docker containers on Heroku"
       script: 
         - heroku container:login
