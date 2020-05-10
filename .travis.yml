@@ -37,8 +37,8 @@ jobs:
         - docker tag $DOCKER_USERNAME/docker_nginx registry.heroku.com/$HEROKU_APP_NGINX/web; 
         - docker push registry.heroku.com/$HEROKU_APP_NGINX/web;
     - stage: Test
-      name: Tests
-        - docker run --rm registry.heroku.com/$HEROKU_APP_FRONTEND/web npm run test -- --browsers=ChromHeadless
+      name: "Tests"
+        - docker run --rm registry.heroku.com/$HEROKU_APP_FRONTEND/web npm run test -- --browsers=ChromeHeadless
     - stage: deploy
       name: "Deploy Docker containers on Heroku"
       script: 
