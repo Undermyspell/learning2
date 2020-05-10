@@ -12,8 +12,8 @@ before_install:
   - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
 
 stages:
-  - Build
   - Test
+  - Build
   - Deploy
   
 jobs:
@@ -22,9 +22,9 @@ jobs:
       name: "Run tests on the Angular Frontend"
       script:
         - docker build -t $DOCKER_USERNAME/docker_frontend_dev --build-arg env=$FRONTEND_ENVIRONMENT -f ./angular/Dockerfile.Dev ./angular
-        - docker tag $DOCKER_USERNAME/docker_frontend_dev registry.heroku.com/$HEROKU_APP_FRONTEND/web;
-        - docker push registry.heroku.com/$HEROKU_APP_FRONTEND/web;
-        - docker run --rm registry.heroku.com/$HEROKU_APP_FRONTEND/web npm run test -- --browsers=ChromeHeadless
+        - docker tag $DOCKER_USERNAME/docker_frontend_dev registry.heroku.com/$HEROKU_APP_FRONTEND/web/dev;
+        - docker push registry.heroku.com/$HEROKU_APP_FRONTEND/web/dev;
+        - docker run --rm registry.heroku.com/$HEROKU_APP_FRONTEND/web/dev npm run test -- --browsers=ChromeHeadless
     - stage: Build               
       name: "Build Angular Frontend Docker image"           
       script: 
