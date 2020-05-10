@@ -14,7 +14,6 @@ before_install:
 stages:
   - build
   - deploy
-    if: branch = master
   
 jobs:
   include:
@@ -37,6 +36,7 @@ jobs:
         - docker tag $DOCKER_USERNAME/docker_nginx registry.heroku.com/$HEROKU_APP_NGINX/web; 
         - docker push registry.heroku.com/$HEROKU_APP_NGINX/web;
     - stage: deploy
+      if: branch = master
       name: "Deploy Docker containers on Heroku"
       script: 
         - heroku container:login
