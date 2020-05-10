@@ -46,6 +46,8 @@ jobs:
     - stage: Deploy
       name: "Deploy Docker containers on Heroku"
       script: 
+        # no prompt to type username and password
+        # because HEROKU_API_KEY is set as environment variable in Travis CI on branch obtained by heroku auth:token
         - heroku container:login
         - heroku container:release web --app $HEROKU_APP_FRONTEND
         - heroku container:release web --app $HEROKU_APP_BACKEND
