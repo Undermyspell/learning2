@@ -11,8 +11,8 @@ import { By } from "@angular/platform-browser";
     `
 })
 class TestComponent {
-   themeDark: Theme = Theme.dark;
-   themeLight: Theme = Theme.light;
+  themeDark: Theme = Theme.dark;
+  themeLight: Theme = Theme.light;
 }
 describe('ThemeableDirective', () => {
   let fixture: ComponentFixture<TestComponent>;
@@ -39,7 +39,6 @@ describe('ThemeableDirective', () => {
     // Assert
     expect(actualElements.length).toBe(2);
     for (let i = 0; i < actualElements.length; i++) {
-      console.log(actualElements[i].classes);
       expect(actualElements[i]).toBeDefined();
       expect(actualElements[i].nativeElement.classList.contains(expected[i].className)).toBeTruthy();
     }
