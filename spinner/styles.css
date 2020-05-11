@@ -1,0 +1,40 @@
+body {
+    margin: 0;
+    padding:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: #333;
+}
+
+.spinner-container {
+    background: #ff9900;
+    width: 100px;
+    height: 100px;
+    position: relative;
+}
+
+
+.spinner-container::before {
+    content: '';
+    background: lightblue;
+    display: block;
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    top:0;
+    left: 0;
+    border-radius: 50%;
+    transform-origin: 100% 100%;
+}
+
+@keyframes spinaround {
+    0% {
+        transform:rotate(0deg);
+    }
+    100% {
+        tranform:rotate(360deg);
+    }
+}
