@@ -22,31 +22,33 @@ jobs:
       name: "Run tests on the Angular Frontend"
       script:
         - docker build -t $DOCKER_USERNAME/docker_frontend_dev --build-arg env=$FRONTEND_ENVIRONMENT -f ./angular/Dockerfile.Dev ./angular
-        - docker tag $DOCKER_USERNAME/docker_frontend_dev registry.heroku.com/$HEROKU_APP_FRONTEND/web/dev;
-        - docker push registry.heroku.com/$HEROKU_APP_FRONTEND/web/dev;
-        - docker run --rm registry.heroku.com/$HEROKU_APP_FRONTEND/web/dev npm run test -- --browsers=ChromeHeadless
+        - docker tag $DOCKER_USERNAME/docker_frontend_dev registry.heroku.com/$HEROKU_APP_FRONTEND/web/dev
+        - docker push registry.heroku.com/$HEROKU_APP_FRONTEND/web/dev
+        - docker run --rm registry.heroku.com/$HEROKU_APP_FRONTEND/web/dev npm run test:ci
     - stage: Build               
       name: "Build Angular Frontend Docker image"           
       script: 
         - docker build -t $DOCKER_USERNAME/docker_frontend --build-arg env=$FRONTEND_ENVIRONMENT ./angular
-        - docker tag $DOCKER_USERNAME/docker_frontend registry.heroku.com/$HEROKU_APP_FRONTEND/web;
-        - docker push registry.heroku.com/$HEROKU_APP_FRONTEND/web;
+        - docker tag $DOCKER_USERNAME/docker_frontend registry.heroku.com/$HEROKU_APP_FRONTEND/web
+        - docker push registry.heroku.com/$HEROKU_APP_FRONTEND/web
     - stage: Build               
       name: "Build Docker NodeJS/Express Api Docker Image"           
       script: 
         - docker build -t $DOCKER_USERNAME/docker_backend ./nodejs-api
-        - docker tag $DOCKER_USERNAME/docker_backend registry.heroku.com/$HEROKU_APP_BACKEND/web;
-        - docker push registry.heroku.com/$HEROKU_APP_BACKEND/web;
+        - docker tag $DOCKER_USERNAME/docker_backend registry.heroku.com/$HEROKU_APP_BACKEND/web
+        - docker push registry.heroku.com/$HEROKU_APP_BACKEND/web
     - stage: Build               
       name: "Build Nginx Proxy Server Docker Image"           
       script: 
         - docker build -t $DOCKER_USERNAME/docker_nginx ./nginx
-        - docker tag $DOCKER_USERNAME/docker_nginx registry.heroku.com/$HEROKU_APP_NGINX/web; 
-        - docker push registry.heroku.com/$HEROKU_APP_NGINX/web;
+        - docker tag $DOCKER_USERNAME/docker_nginx registry.heroku.com/$HEROKU_APP_NGINX/web 
+        - docker push registry.heroku.com/$HEROKU_APP_NGINX/web
     - stage: Deploy
       name: "Deploy Docker containers on Heroku"
       script: 
+        # no prompt to type username and password
+        # because HEROKU_API_KEY is set as environment variable in Travis CI on branch obtained by heroku auth:token
         - heroku container:login
-        - heroku container:release web --app $HEROKU_APP_FRONTEND;
-        - heroku container:release web --app $HEROKU_APP_BACKEND;
-        - heroku container:release web --app $HEROKU_APP_NGINX;
+        - heroku container:release web --app $HEROKU_APP_FRONTEND
+        - heroku container:release web --app $HEROKU_APP_BACKEND
+        - heroku container:release web --app $HEROKU_APP_NGINX
