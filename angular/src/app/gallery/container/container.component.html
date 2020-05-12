@@ -1,6 +1,11 @@
 <div class="gallery">
-  <div *ngFor="let url of imageUrls$ | async; let i = index" class="card" imageClass
-    [style.background-image]="getSanitizedImageUrl(url)">{{i+1}}
-  </div>
+  <ng-container *ngIf="!isLoading; else spinner">
+    <div *ngFor="let url of imageUrls$ | async; let i = index" class="card" imageClass
+      [style.background-image]="getSanitizedImageUrl(url)">{{i+1}}
+    </div>
+  </ng-container>
 
+  <ng-template #spinner>
+    <app-spinner scale="1.5"></app-spinner>
+  </ng-template>
 </div>

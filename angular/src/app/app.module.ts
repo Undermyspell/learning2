@@ -9,6 +9,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ImageClassDirective } from './directives/image-class.directive';
 import { ThemeableDirective } from './directives/themeable.directive';
 import { SpinnerComponent } from './shared/spinner/spinner.component';
+import { DefaultComponent } from './default/default.component';
+import { ScaleDirective } from './directives/scale.directive';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { SpinnerComponent } from './shared/spinner/spinner.component';
     ContainerComponent,
     ImageClassDirective,
     ThemeableDirective,
-    SpinnerComponent
+    SpinnerComponent,
+    DefaultComponent,
+    ScaleDirective
   ],
   imports: [
     BrowserModule,
