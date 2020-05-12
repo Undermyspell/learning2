@@ -12,13 +12,12 @@ import { tap } from "rxjs/operators";
 export class ContainerComponent implements OnInit {
 
   imageUrls$: Observable<string[]>
-  isLoading: boolean = true;
 
   constructor(private readonly galleryService: GalleryService,
     private readonly sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
-    this.imageUrls$ = this.galleryService.getImageUrls().pipe(tap(() => !this.isLoading));
+    this.imageUrls$ = this.galleryService.getImageUrls();
   }
 
   getSanitizedImageUrl(url: string): SafeStyle {
