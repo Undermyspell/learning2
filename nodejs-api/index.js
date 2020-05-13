@@ -9,7 +9,6 @@ const graphqlHttp = require("express-graphql");
 const graphQlSchema = require('./graphql/schema/index');
 const graphQlResolvers = require('./graphql/resolvers/index');
 
-
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -48,11 +47,10 @@ app.set("port", process.env.PORT || 3000);
 
 mongoose
     .connect(
-        `mongodb://<user>:<password>@ds119374.mlab.com:19374/heroku_1c1g8kmm`, {
+        `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_ENDPOINT}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASE}`, {
         useNewUrlParser: true,
         useUnifiedTopology: true
-    }
-    )
+    })
     .then(() => {
         app.listen(app.get("port"), () => {
             console.log(`Server listening on port ${app.get("port")}`);
