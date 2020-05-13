@@ -15,6 +15,7 @@ export class NavComponent implements OnInit {
   changeSolar: EventEmitter<void> = new EventEmitter();
 
   theme = Theme;
+  isSolar: boolean;
 
   constructor() { }
 

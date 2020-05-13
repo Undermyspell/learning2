@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GalleryService } from "src/app/services/gallery.service";
 import { Observable } from "rxjs";
 import { DomSanitizer, SafeStyle } from "@angular/platform-browser";
+import { tap } from "rxjs/operators";
 
 @Component({
   selector: 'app-container',

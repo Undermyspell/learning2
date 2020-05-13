@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -7,6 +8,7 @@ const mongoose = require("mongoose");
 const graphqlHttp = require("express-graphql");
 const graphQlSchema = require('./graphql/schema/index');
 const graphQlResolvers = require('./graphql/resolvers/index');
+
 
 const app = express();
 app.use(cors());
