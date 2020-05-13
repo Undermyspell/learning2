@@ -45,24 +45,20 @@ app.use(
 );
 
 app.set("port", process.env.PORT || 3000);
-app.listen(app.get("port"), () => {
-    console.log(`Server listening on port ${app.get("port")}`);
-});
-// mongoose
-//     .connect(
-//         `mongodb+srv://${process.env.MONGO_USER}:${
-//         process.env.MONGO_PASSWORD
-//         }@learning-xy5kr.mongodb.net/${process.env.MONGO_DB}?retryWrites=true`, {
-//         useNewUrlParser: true,
-//         useUnifiedTopology: true
-//     }
-//     )
-//     .then(() => {
-//         app.listen(app.get("port"), () => {
-//             console.log(`Server listening on port ${app.get("port")}`);
-//         });
-//     })
-//     .catch(err => {
-//         console.log(err);
-//     });
+
+mongoose
+    .connect(
+        `mongodb://<user>:<password>@ds119374.mlab.com:19374/heroku_1c1g8kmm`, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    }
+    )
+    .then(() => {
+        app.listen(app.get("port"), () => {
+            console.log(`Server listening on port ${app.get("port")}`);
+        });
+    })
+    .catch(err => {
+        console.log(err);
+    });
 
