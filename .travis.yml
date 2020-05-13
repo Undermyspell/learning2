@@ -41,9 +41,10 @@ jobs:
       name: "Build Nginx Proxy Server Docker Image"           
       script: 
         - docker build -t $DOCKER_USERNAME/docker_nginx ./nginx
-        - docker tag $DOCKER_USERNAME/docker_nginx registry.heroku.com/$HEROKU_APP_NGINX/web 
-        - docker push registry.heroku.com/$HEROKU_APP_NGINX/web
+        - docker tag $DOCKER_USERNAME/docker_nginx registry.heroku.com/$HEROKU_APP_NGINX/web; 
+        - docker push registry.heroku.com/$HEROKU_APP_NGINX/web;
     - stage: Deploy
+      if: branch = master
       name: "Deploy Docker containers on Heroku"
       script: 
         # no prompt to type username and password
