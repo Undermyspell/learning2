@@ -1,5 +1,5 @@
 import { Directive, ElementRef, Renderer2, Input } from '@angular/core';
-import { Theme } from "../enums/theme.enum";
+import { Theme } from "../../enums/theme.enum";
 
 @Directive({
   selector: '[themeable]'

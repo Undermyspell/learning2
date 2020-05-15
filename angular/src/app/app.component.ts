@@ -1,4 +1,4 @@
-import { ThemeableDirective } from './directives/themeable.directive';
+import { ThemeableDirective } from './shared/directives/themeable.directive';
 import { Component, ViewChild } from '@angular/core';
 import { Theme } from "./enums/theme.enum";
 
