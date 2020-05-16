@@ -1,32 +1,28 @@
+import { GalleryModule } from './gallery/gallery.module';
+import { SharedModule } from './shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './home/nav/nav.component';
-import { ContainerComponent } from './gallery/container/container.component';
 import { HttpClientModule } from '@angular/common/http';
-import { ImageClassDirective } from './directives/image-class.directive';
-import { ThemeableDirective } from './directives/themeable.directive';
-import { SpinnerComponent } from './shared/spinner/spinner.component';
 import { DefaultComponent } from './default/default.component';
-import { ScaleDirective } from './directives/scale.directive';
+import { RootStoreModule } from "./root-store/root-store.module";
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
-    ContainerComponent,
-    ImageClassDirective,
-    ThemeableDirective,
-    SpinnerComponent,
-    DefaultComponent,
-    ScaleDirective
+    DefaultComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    SharedModule,
+    RootStoreModule,
+    GalleryModule
   ],
   providers: [],
   bootstrap: [AppComponent]
