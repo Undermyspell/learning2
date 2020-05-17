@@ -1,16 +1,16 @@
 require('dotenv').config();
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
+const express = require('express');
 const path = require("path");
 const fs = require("fs");
+const bodyParser = require('body-parser');
+const { ApolloServer, gql } = require("apollo-server-express");
 const mongoose = require("mongoose");
-const graphqlHttp = require("express-graphql");
-const graphQlSchema = require('./graphql/schema/index');
-const graphQlResolvers = require('./graphql/resolvers/index');
+const typeDefs = require("./graphql/schema/schema")
+const resolvers = require("./graphql/resolver/index")
+
+const server = new ApolloServer({ typeDefs, resolvers });
 
 const app = express();
-app.use(cors());
 app.use(bodyParser.json());
 
 app.get("/", function (req, res) {
@@ -34,17 +34,7 @@ app.get("/imageurls", (req, res, next) => {
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-app.use(
-    '/graphql',
-    graphqlHttp({
-        schema: graphQlSchema,
-        rootValue: graphQlResolvers,
-        graphiql: true
-    })
-);
-
 app.set("port", process.env.PORT || 3000);
-
 mongoose
     .connect(
         `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_ENDPOINT}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASE}`, {
@@ -60,3 +50,4 @@ mongoose
         console.log(err);
     });
 
+server.applyMiddleware({ app });
