@@ -1,27 +1,23 @@
 const Event = require("../../models/event");
 const { dateToString } = require('../../helper/date-helper');
-const eventResolver = require("./event-resolver");
-const userResolver = require("./user-resolver");
 
-const resolvers = {
-    Query: {
-        async events() {
+const userResolver = {
+    User: {
+        async createdEvents(user) {
             try {
-                const events = await Event.find();
+                const events = await Event.find({ _id: { $in: user.createdEvents} });
                 return events.map(event => {
-                    return {
+                    const t = {
                         ...event._doc,
-                        _id: event.id,
                         date: dateToString(event._doc.date)
                     };
+                    return t;
                 });
             } catch (err) {
                 throw err;
             }
-        },
-    },
-    ...eventResolver,
-    ...userResolver
-};
+        }
+    }
+}
 
-module.exports = resolvers;
+module.exports = userResolver;
