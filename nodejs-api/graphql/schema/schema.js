@@ -36,6 +36,7 @@ const schema = gql`
     events: [Event!]!
     bookings: [Booking!]!
     login(email: String!, password: String!): AuthData!
+    user(email: String!): User
   }
 `;
 
