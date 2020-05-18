@@ -31,12 +31,21 @@ const schema = gql`
         token: String!
         tokenExpiration: Int!
     }
+    
+  input UserInput {
+    email: String!
+    password: String!
+  }
 
   type Query {
     events: [Event!]!
     bookings: [Booking!]!
     login(email: String!, password: String!): AuthData!
     user(email: String!): User
+  }
+
+  type Mutation {
+    createUser(userInput: UserInput): User
   }
 `;
 
