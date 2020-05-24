@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from "@angular/forms";
+import { FormValid } from "src/app/shared/decorators/form-valid.decorator";
 
 @Component({
   selector: 'app-login',
@@ -8,18 +9,20 @@ import { FormBuilder, FormGroup, FormControl, Validators } from "@angular/forms"
 })
 export class LoginComponent implements OnInit {
 
-  loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required]),
-  });
+  loginForm: FormGroup;
 
-  constructor() { }
+  constructor(private readonly formbuilder: FormBuilder) { }
 
   ngOnInit(): void {
+    this.loginForm = this.formbuilder.group({
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+    })
   }
 
+  @FormValid("loginForm")
   onLogin() {
-    // TODO: Use EventEmitter with form value
-    console.warn(this.loginForm.value);
+    console.log(this.loginForm.value);
   }
+
 }
