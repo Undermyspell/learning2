@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ThemeableDirective } from "./directives/themeable.directive";
 import { ImageClassDirective } from "./directives/image-class.directive";
 import { ScaleDirective } from "./directives/scale.directive";
+import { AuthGuard } from "./guards/auth.guard";
 
 
 @NgModule({
@@ -19,6 +20,8 @@ import { ScaleDirective } from "./directives/scale.directive";
     ThemeableDirective,
     ScaleDirective
   ],
-  providers: [],
+  providers: [
+    AuthGuard
+  ],
 })
 export class SharedModule { }
