@@ -1,3 +1,4 @@
+import { EventContainerComponent } from './event/container/event/event.container.component';
 import { GalleryModule } from './gallery/gallery.module';
 import { SharedModule } from './shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -11,13 +12,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { DefaultComponent } from './default/default.component';
 import { RootStoreModule } from "./root-store/root-store.module";
 import { LoginComponent } from './home/login/login.component';
+import { GraphQLModule } from './graphql.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     DefaultComponent,
-    LoginComponent
+    LoginComponent,
+    EventContainerComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +29,8 @@ import { LoginComponent } from './home/login/login.component';
     SharedModule,
     RootStoreModule,
     GalleryModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    GraphQLModule
   ],
   providers: [],
   bootstrap: [AppComponent]

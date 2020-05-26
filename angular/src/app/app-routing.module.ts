@@ -5,12 +5,14 @@ import { ContainerComponent } from "./gallery/container/container.component";
 import { SpinnerComponent } from "./shared/spinner/spinner.component";
 import { DefaultComponent } from "./default/default.component";
 import { LoginComponent } from "./home/login/login.component";
+import { EventContainerComponent } from "./event/container/event/event.container.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'default', pathMatch: 'full' },
-  { path: 'default', component: DefaultComponent, canActivate: [AuthGuard] },
+  { path: 'default', component: DefaultComponent }, // canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
-  { path: 'gallery', component: ContainerComponent }
+  { path: 'gallery', component: ContainerComponent },
+  { path: 'events', component: EventContainerComponent }
 ];
 
 @NgModule({
