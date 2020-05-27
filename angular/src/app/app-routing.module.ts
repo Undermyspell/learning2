@@ -9,10 +9,10 @@ import { EventContainerComponent } from "./event/container/event/event.container
 
 const routes: Routes = [
   { path: '', redirectTo: 'default', pathMatch: 'full' },
-  { path: 'default', component: DefaultComponent }, // canActivate: [AuthGuard] },
+  { path: 'default', component: DefaultComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'gallery', component: ContainerComponent },
-  { path: 'events', component: EventContainerComponent }
+  { path: 'gallery', component: ContainerComponent, canActivate: [AuthGuard] },
+  { path: 'events', component: EventContainerComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

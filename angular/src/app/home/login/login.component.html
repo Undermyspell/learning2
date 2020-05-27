@@ -13,6 +13,9 @@
     <div class="login-input login-password">
       <input type="password" formControlName="password" placeholder="Password">
     </div>
+    <div *ngIf="invalidLogin">
+      <span>Invalid login!</span>
+    </div>
     <button type="submit">Login</button>
   </form>
 </div>

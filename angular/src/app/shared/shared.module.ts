@@ -18,7 +18,7 @@ import { AuthGuard } from "./guards/auth.guard";
     SpinnerComponent,
     ImageClassDirective,
     ThemeableDirective,
-    ScaleDirective
+    ScaleDirective,
   ],
   providers: [
     AuthGuard

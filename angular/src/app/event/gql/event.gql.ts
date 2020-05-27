@@ -19,12 +19,12 @@ export interface Response {
 })
 export class EventsGQL extends Query<Response> {
   document = gql`
-      query {
+      query events {
         events {
           _id
           title
           description
         }
-      }
+      } 
   `;
 }
