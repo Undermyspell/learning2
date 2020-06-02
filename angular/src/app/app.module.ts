@@ -2,6 +2,7 @@ import { EventContainerComponent } from './event/container/event/event.container
 import { GalleryModule } from './gallery/gallery.module';
 import { SharedModule } from './shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -24,6 +25,7 @@ import { GraphQLModule } from './graphql.module';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     SharedModule,
