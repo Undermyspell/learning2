@@ -1,5 +1,5 @@
 import { User } from './../../shared/gql/login.gql';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from "@angular/forms";
 import { FormValid } from "src/app/shared/decorators/form-valid.decorator";
 import { AuthService } from "src/app/shared/services/auth.service";
@@ -16,22 +16,35 @@ import { trigger, transition, animate, keyframes, style } from "@angular/animati
     trigger('swiggle', [
       transition('false => true', animate('500ms ease-in',
         keyframes([
-          style({ transform: 'translate3d(-100px, 0, 0)', offset: 0.1 })
+          style({ transform: 'translate3d(-1px, 0, 0)', offset: 0.1 }),
+          style({ transform: 'translate3d(2px, 0, 0)', offset: 0.2 }),
+          style({ transform: 'translate3d(-4px, 0, 0)', offset: 0.3 }),
+          style({ transform: 'translate3d(4px, 0, 0)', offset: 0.4 }),
+          style({ transform: 'translate3d(-4px, 0, 0)', offset: 0.5 }),
+          style({ transform: 'translate3d(4px, 0, 0)', offset: 0.6 }),
+          style({ transform: 'translate3d(-4px, 0, 0)', offset: 0.7 }),
+          style({ transform: 'translate3d(2px, 0, 0)', offset: 0.8 }),
+          style({ transform: 'translate3d(-1px, 0, 0)', offset: 0.9 })
         ])
       ))
     ])
   ]
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
   returnUrl: string;
   loginForm: FormGroup;
   invalidLogin: boolean = false;
+  @ViewChild('mailInput') private mailInput: ElementRef;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private readonly formbuilder: FormBuilder,
     private readonly authService: AuthService) { }
+
+  ngAfterViewInit(): void {
+    this.mailInput.nativeElement.focus();
+  }
 
   ngOnInit(): void {
     this.loginForm = this.formbuilder.group({
