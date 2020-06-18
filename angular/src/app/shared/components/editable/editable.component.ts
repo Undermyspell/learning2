@@ -13,9 +13,20 @@ import { Observable } from "apollo-link";
   styles: [
   ]
 })
-export class EditableComponent implements OnInit {
+export class EditableComponent {
   @Output() update = new EventEmitter();
-  @Input() edit$: Observable<boolean>;
+
+  @Input("edit")
+  set editable(editable: boolean) {
+    if (editable && this.mode === "view") {
+      this.mode = "edit";
+    }
+    if (!editable && this.mode === "edit") {
+      this.mode = "view";
+      this.update.emit();
+    }
+  }
+  @Input() value: string;
 
   @ContentChild(ViewModeDirective, { read: TemplateRef }) viewModeTpl: TemplateRef<ViewModeDirective>;
   @ContentChild(EditModeDirective, { read: TemplateRef }) editModeTpl: TemplateRef<EditModeDirective>;
@@ -31,40 +42,4 @@ export class EditableComponent implements OnInit {
   get currentView() {
     return this.mode === 'view' ? this.viewModeTpl : this.editModeTpl;
   }
-
-  ngOnInit() {
-    // this.viewModeHandler();
-    // this.editModeHandler();
-    this.edit$.subscribe((editable) => {
-      if (editable) {
-        this.mode = 'edit';
-        // this.editMode.next(true);
-      } else {
-        this.mode = 'view'
-        this.update.emit();
-      }
-    });
-  }
-
-  // private viewModeHandler() {
-  //   // fromEvent(this.element, 'dblclick').pipe(
-  //   // ).subscribe(() => {
-  //   //   this.mode = 'edit';
-  //   //   this.editMode.next(true);
-  //   // });
-  // }
-
-  // private editModeHandler() {
-  //   // const clickOutside$ = fromEvent(document, 'click').pipe(
-  //   //   filter(({ target }) => this.element.contains(target) === false),
-  //   //   take(1)
-  //   // )
-
-  //   // this.editMode$.pipe(
-  //   //   switchMapTo(clickOutside$),
-  //   // ).subscribe(event => {
-  //   //   this.update.next();
-  //   //   this.mode = 'view';
-  //   // });
-  // }
 }

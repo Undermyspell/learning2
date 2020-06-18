@@ -1,28 +1,30 @@
 <table>
-    <tr *ngFor="let entity of entities; index as index">
-        <td>
-            <editable [edit$]="!!isRowInEditMode[index]" (update)="updateField(index, 'orgId')">
-                <ng-container *viewMode>{{entity.orgId}}</ng-container>
-                <input *editMode [formControl]="getControl(index, 'orgId')">
-            </editable>
-        </td>
-        <td>
-            <editable [edit$]="!!isRowInEditMode[index]" (update)="updateField(index, 'bgbk')">
-                <ng-container *viewMode>{{entity.bgbk}}</ng-container>
-                <input *editMode [formControl]="getControl(index, 'bgbk')">
-            </editable>
-        </td>
-        <td>
-            <editable [edit$]="!!isRowInEditMode[index]" (update)="updateField(index, 'orderNo')">
-                <ng-container *viewMode>{{entity.orderNo}}</ng-container>
-                <input *editMode [formControl]="getControl(index, 'orderNo')">
-            </editable>
-        </td>
-        <td>
-            <button (click)="toggleEditMode(index)">Stift</button>
-        </td>
-        <td>
-            <button type="submit" [disabled]="!getFormGroup(index).valid">Save</button>
-        </td>
-    </tr>
+  <tr *ngFor="let entity of entities; index as index">
+    {{entity.orgId}}
+    <td>
+      <editable [edit]="!!isRowInEditMode[index]" (update)="updateField(index, 'orgId')">
+        <ng-container *viewMode>{{getControl(index, 'orgId').value}}</ng-container>
+        <input *editMode [formControl]="getControl(index, 'orgId')">
+      </editable>
+    </td>
+    <td>
+      <editable [edit]="!!isRowInEditMode[index]" (update)="updateField(index, 'bgbk')">
+        <ng-container *viewMode>{{getControl(index, 'bgbk').value}}</ng-container>
+        <input *editMode [formControl]="getControl(index, 'bgbk')">
+      </editable>
+    </td>
+    <td>
+      <editable [edit]="!!isRowInEditMode[index]" (update)="updateField(index, 'orderNo')">
+        <ng-container *viewMode>{{getControl(index, 'orderNo').value}}</ng-container>
+        <input *editMode [formControl]="getControl(index, 'orderNo')">
+      </editable>
+    </td>
+    <td>
+      <button (click)="toggleEditMode(index)">Stift</button>
+    </td>
+    <td>
+      <button type="submit" [disabled]="!getFormGroup(index).valid" (click)="save(index)">Save</button>
+    </td>
+  </tr>
+  <button (click)="clear()"></button>
 </table>

@@ -60,7 +60,6 @@ export class TableInlineComponent implements OnInit {
 
   updateField(index: number, field: string) {
     const control = this.getControl(index, field);
-    console.log(control.value);
     if (control.valid) {
       this.entities = this.entities.map((e, i) => {
         if (index === i) {
@@ -72,6 +71,15 @@ export class TableInlineComponent implements OnInit {
         return e;
       })
     }
+  }
+
+  clear() {
+    this.entities = [];
+  }
+
+  save(index: number) {
+    this.isRowInEditMode = {};
+    console.log(this.controls.at(index).value);
   }
 
 }
