@@ -14,6 +14,8 @@ import { DefaultComponent } from './default/default.component';
 import { RootStoreModule } from "./root-store/root-store.module";
 import { LoginComponent } from './home/login/login.component';
 import { GraphQLModule } from './graphql.module';
+import { TableInlineComponent } from './edit/table-inline/table-inline.component';
+import { EditableComponent } from "./shared/components/editable/editable.component";
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { GraphQLModule } from './graphql.module';
     NavComponent,
     DefaultComponent,
     LoginComponent,
-    EventContainerComponent
+    EventContainerComponent,
+    TableInlineComponent
   ],
   imports: [
     BrowserModule,
