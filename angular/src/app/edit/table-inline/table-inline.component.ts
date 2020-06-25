@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { FormArray, FormGroup, FormControl, Validators } from "@angular/forms";
+import { EditableComponent } from "src/app/shared/components/editable/editable.component";
 
 @Component({
   selector: 'app-table-inline',
@@ -7,9 +8,10 @@ import { FormArray, FormGroup, FormControl, Validators } from "@angular/forms";
   styleUrls: ['./table-inline.component.sass']
 })
 export class TableInlineComponent implements OnInit {
-  isRowInEditMode: { [index: number]: boolean } = {};
+  isRowInEditMode: { [index: number]: any } = {};
 
   entities: any[] = [{
+    id: 1,
     orgId: "10001529",
     bgbk: "R211",
     orderNo: 9704257731,
@@ -18,6 +20,7 @@ export class TableInlineComponent implements OnInit {
     LS: "LS1+LS2",
     Comment: "Comment1"
   }, {
+    id: 2,
     orgId: "A4050126",
     bgbk: "R305",
     orderNo: 9705242964,
@@ -31,9 +34,12 @@ export class TableInlineComponent implements OnInit {
 
   constructor() { }
 
+  @ViewChildren(EditableComponent) editableComponent: QueryList<EditableComponent>;
+
   ngOnInit(): void {
     const toGroups = this.entities.map(entity => {
       return new FormGroup({
+        id: new FormControl(entity.id),
         orgId: new FormControl(entity.orgId, Validators.required),
         bgbk: new FormControl(entity.bgbk),
         orderNo: new FormControl(entity.orderNo)
@@ -51,10 +57,13 @@ export class TableInlineComponent implements OnInit {
   }
 
   toggleEditMode(rowIndex: number): void {
-    if (this.isRowInEditMode[rowIndex]) {
+    if (!!this.isRowInEditMode[rowIndex]) {
+      this.controls.at(rowIndex).reset(this.isRowInEditMode[rowIndex])
       delete this.isRowInEditMode[rowIndex];
+      this.editableComponent.filter(x => +x.elementRef.nativeElement.getAttribute("index") === rowIndex).forEach(x => x.view());
     } else {
-      this.isRowInEditMode[rowIndex] = true;
+      this.isRowInEditMode[rowIndex] = this.controls.at(rowIndex).value;
+      this.editableComponent.filter(x => +x.elementRef.nativeElement.getAttribute("index") === rowIndex).forEach(x => x.edit());
     }
   }
 
@@ -73,13 +82,8 @@ export class TableInlineComponent implements OnInit {
     }
   }
 
-  clear() {
-    this.entities = [];
-  }
-
   save(index: number) {
     this.isRowInEditMode = {};
-    console.log(this.controls.at(index).value);
+    this.editableComponent.filter(x => +x.elementRef.nativeElement.getAttribute("index") === index).forEach(x => x.view());
   }
-
 }

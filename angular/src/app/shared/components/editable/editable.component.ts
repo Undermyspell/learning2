@@ -1,9 +1,6 @@
-import { Component, OnInit, Output, EventEmitter, ContentChild, ElementRef, TemplateRef, Input } from '@angular/core';
+import { Component, Output, EventEmitter, ContentChild, ElementRef, TemplateRef, Input } from '@angular/core';
 import { ViewModeDirective } from "../../directives/viewmode.directive";
 import { EditModeDirective } from "../../directives/editmode.directive";
-import { fromEvent, Subject } from "rxjs";
-import { switchMapTo, filter, take } from "rxjs/operators";
-import { Observable } from "apollo-link";
 
 @Component({
   selector: 'editable',
@@ -14,29 +11,24 @@ import { Observable } from "apollo-link";
   ]
 })
 export class EditableComponent {
-  @Output() update = new EventEmitter();
 
-  @Input("edit")
-  set editable(editable: boolean) {
-    if (editable && this.mode === "view") {
-      this.mode = "edit";
-    }
-    if (!editable && this.mode === "edit") {
-      this.mode = "view";
-      this.update.emit();
-    }
+  public edit() {
+    this.mode = "edit";
   }
-  @Input() value: string;
+
+  public view() {
+    this.mode = "view";
+    this.update.emit();
+  }
+
+  @Output() update = new EventEmitter();
 
   @ContentChild(ViewModeDirective, { read: TemplateRef }) viewModeTpl: TemplateRef<ViewModeDirective>;
   @ContentChild(EditModeDirective, { read: TemplateRef }) editModeTpl: TemplateRef<EditModeDirective>;
 
   mode: 'view' | 'edit' = 'view';
 
-  editMode = new Subject();
-  editMode$ = this.editMode.asObservable();
-
-  constructor() {
+  constructor(public elementRef: ElementRef) {
   }
 
   get currentView() {
