@@ -1,9 +1,10 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, OnInit, Directive } from '@angular/core';
 import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { EventsGQL } from "../gql/event.gql";
 import { Event } from "../gql/event.gql";
 
+@Directive()
 @Injectable({
   providedIn: 'root'
 })
