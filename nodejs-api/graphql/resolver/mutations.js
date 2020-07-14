@@ -5,7 +5,6 @@ const User = require("../../models/user");
 const mutations = {
     createUser: async (_, args) => {
         try {
-            console.log(args);
             const existingUser = await User.findOne({ email: args.userInput.email });
             if (existingUser) {
                 throw new Error('User exists already.');

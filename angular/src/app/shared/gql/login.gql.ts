@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Query } from 'apollo-angular';
 import gql from 'graphql-tag';
+import { User } from "src/app/user/models";
 
-export interface User {
-  token: string;
-  tokenExpiration: number;
-  userId: string
-}
 export interface LoginResponse {
   login: User
 }

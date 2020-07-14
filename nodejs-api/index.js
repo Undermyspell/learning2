@@ -8,7 +8,20 @@ const mongoose = require("mongoose");
 const typeDefs = require("./graphql/schema/schema")
 const resolvers = require("./graphql/resolver/index")
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: ({ req }) => {
+        const token = req.headers.authorization || '';
+        const authHeader = req.get('Authorization');
+
+        console.log(token);
+        console.log(authHeader);
+
+        // add the user to the context
+        return { token };
+    },
+});
 
 const app = express();
 app.use(bodyParser.json());
