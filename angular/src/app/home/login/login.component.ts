@@ -1,4 +1,3 @@
-import { User } from './../../shared/gql/login.gql';
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from "@angular/forms";
 import { FormValid } from "src/app/shared/decorators/form-valid.decorator";
@@ -7,6 +6,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { catchError } from "rxjs/operators";
 import { of } from "rxjs";
 import { trigger, transition, animate, keyframes, style } from "@angular/animations";
+import { User } from "src/app/user/models";
 
 @Component({
   selector: 'app-login',

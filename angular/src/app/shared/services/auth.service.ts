@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { LoginGQL, User } from "../gql/login.gql";
+import { LoginGQL } from "../gql/login.gql";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
+import { User } from "src/app/user/models";
 
 @Injectable({
   providedIn: 'root'
