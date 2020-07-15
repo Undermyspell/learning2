@@ -6,13 +6,11 @@ import { SpinnerComponent } from "./shared/spinner/spinner.component";
 import { DefaultComponent } from "./default/default.component";
 import { LoginComponent } from "./home/login/login.component";
 import { EventContainerComponent } from "./event/container/event/event.container.component";
-import { TableInlineComponent } from "./edit/table-inline/table-inline.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'default', pathMatch: 'full' },
   { path: 'default', component: DefaultComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'edit', component: TableInlineComponent },
   { path: 'gallery', component: ContainerComponent, canActivate: [AuthGuard] },
   { path: 'events', component: EventContainerComponent, canActivate: [AuthGuard] }
 ];

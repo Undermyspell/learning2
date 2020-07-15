@@ -14,7 +14,6 @@ import { DefaultComponent } from './default/default.component';
 import { RootStoreModule } from "./root-store/root-store.module";
 import { LoginComponent } from './home/login/login.component';
 import { GraphQLModule } from './graphql.module';
-import { TableInlineComponent } from './edit/table-inline/table-inline.component';
 import { EditableComponent } from "./shared/components/editable/editable.component";
 
 @NgModule({
@@ -23,8 +22,7 @@ import { EditableComponent } from "./shared/components/editable/editable.compone
     NavComponent,
     DefaultComponent,
     LoginComponent,
-    EventContainerComponent,
-    TableInlineComponent
+    EventContainerComponent
   ],
   imports: [
     BrowserModule,
