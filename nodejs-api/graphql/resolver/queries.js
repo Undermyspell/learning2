@@ -8,7 +8,7 @@ const User = require("../../models/user");
 const queries = {
     events: async (parent, args, context, info) => {
         try {
-            console.log("ctx", context);
+            console.log("events", context);
             const events = await Event.find();
             return events.map(event => {
                 return {

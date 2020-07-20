@@ -8,6 +8,8 @@ import { EditableComponent } from './components/editable/editable.component';
 import { ViewModeDirective } from './directives/viewmode.directive';
 import { EditModeDirective } from './directives/editmode.directive';
 import { CommonModule } from '@angular/common';
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { LearningHttpInterceptor } from "./interceptors/learningh-http.interceptor";
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { CommonModule } from '@angular/common';
     EditModeDirective
   ],
   providers: [
-    AuthGuard
+    AuthGuard,
+    { provide: HTTP_INTERCEPTORS, useClass: LearningHttpInterceptor, multi: true },
   ],
 })
 export class SharedModule { }
