@@ -21,7 +21,7 @@ jobs:
     - stage: Test
       name: "Run tests on the Angular Frontend"
       script:
-        - docker build -t $DOCKER_USERNAME/docker_frontend_dev --build-arg env=$FRONTEND_ENVIRONMENT -f ./angular/Dockerfile.Dev ./angular
+        - docker build -t $DOCKER_USERNAME/docker_frontend_dev --build-arg env=$FRONTEND_ENVIRONMENT -f ./angular/Dockerfile.Test ./angular
         - docker tag $DOCKER_USERNAME/docker_frontend_dev registry.heroku.com/$HEROKU_APP_FRONTEND/web/dev
         - docker push registry.heroku.com/$HEROKU_APP_FRONTEND/web/dev
         - docker run --rm registry.heroku.com/$HEROKU_APP_FRONTEND/web/dev npm run test:ci

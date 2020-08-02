@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.8"
 services:
   frontend:
     build:
@@ -23,4 +23,4 @@ services:
       - frontend
       - api
     ports:
-      - 4711:80
+      - 4712:80
