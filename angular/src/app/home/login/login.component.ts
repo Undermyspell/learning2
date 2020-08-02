@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from "@angular/forms";
 import { FormValid } from "src/app/shared/decorators/form-valid.decorator";
 import { AuthService } from "src/app/shared/services/auth.service";
@@ -7,6 +7,7 @@ import { catchError } from "rxjs/operators";
 import { of } from "rxjs";
 import { trigger, transition, animate, keyframes, style } from "@angular/animations";
 import { User } from "src/app/user/models";
+import { BROWSER_STORAGE } from "src/app/shared/injectables";
 
 @Component({
   selector: 'app-login',
@@ -40,7 +41,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     private readonly formbuilder: FormBuilder,
-    private readonly authService: AuthService) { }
+    private readonly authService: AuthService,
+    @Inject(BROWSER_STORAGE) private readonly storage: Storage) { }
 
   ngAfterViewInit(): void {
     this.mailInput.nativeElement.focus();
@@ -66,14 +68,19 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   @FormValid("loginForm")
   onLogin() {
+    this.invalidLogin = false;
+    console.log(this.invalidLogin);
     this.authService.login(this.email, this.password)
       .pipe(catchError(() => of(undefined)))
       .subscribe((user: User) => {
         if (user) {
-          localStorage.setItem("user", JSON.stringify(user));
+          this.storage.setItem("user", JSON.stringify(user));
           this.router.navigateByUrl(this.returnUrl);
         } else {
           this.invalidLogin = true;
+          console.log(this.invalidLogin);
+
+          setTimeout(() => this.invalidLogin = false, 2000);
         }
       })
   }
