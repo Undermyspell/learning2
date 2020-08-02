@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LoginGQL } from "../gql/login.gql";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { Observable, of } from "rxjs";
+import { map, catchError } from "rxjs/operators";
 import { User } from "src/app/user/models";
 
 @Injectable({
@@ -13,10 +13,14 @@ export class AuthService {
 
   login(email: string, password: string): Observable<User> {
     return this.loginGQL.watch({
-        email,
-        password
-      })
+      email,
+      password
+    })
       .valueChanges.pipe(
+        catchError(err => {
+          console.log(err)
+          return of(null);
+        }),
         map(result => result.data.login)
       );
   }

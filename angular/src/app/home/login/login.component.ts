@@ -78,9 +78,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
           this.router.navigateByUrl(this.returnUrl);
         } else {
           this.invalidLogin = true;
-          console.log(this.invalidLogin);
-
-          setTimeout(() => this.invalidLogin = false, 2000);
         }
       })
   }

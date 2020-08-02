@@ -9,7 +9,7 @@ import { ViewModeDirective } from './directives/viewmode.directive';
 import { EditModeDirective } from './directives/editmode.directive';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
-import { LearningHttpInterceptor } from "./interceptors/learningh-http.interceptor";
+import { LearningHttpInterceptor } from "./interceptors/learning-http.interceptor";
 
 @NgModule({
   declarations: [
