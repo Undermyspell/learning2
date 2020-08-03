@@ -29,12 +29,12 @@ const schema = gql`
         creator: User!
     }
 
-    type User @auth(requires: USER) {
+    type User {
         _id: ID!
         email: String!
         password: String
         createdEvents: [Event!]
-        userRoles: [Role!]
+        userRoles: [Role!] @auth(requires: ADMIN)
     }
 
     type Role {

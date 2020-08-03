@@ -7,7 +7,8 @@ const { ApolloServer } = require("apollo-server-express");
 const mongoose = require("mongoose");
 const typeDefs = require("./graphql/schema/schema")
 const resolvers = require("./graphql/resolver/index")
-const { AuthDirective } = require("./graphql/directives/auth.directive")
+const { AuthDirective } = require("./graphql/directives/auth.directive");
+const { getUserContext } = require("./auth/usercontext");
 
 const server = new ApolloServer({
     typeDefs,
@@ -17,8 +18,8 @@ const server = new ApolloServer({
     },
     context: ({ req }) => {
         const token = req.headers.authorization || '';
-        // add the user to the context
-        return { token };
+        const userContext = getUserContext(token);
+        return { userContext };
     },
 });
 

@@ -1,4 +1,5 @@
 const { SchemaDirectiveVisitor, ApolloError } = require("apollo-server-express");
+const { defaultFieldResolver } = require("graphql");
 const { DirectiveLocation, GraphQLDirective, GraphQLEnumType } = require("graphql");
 
 class AuthDirective extends SchemaDirectiveVisitor {
@@ -23,7 +24,6 @@ class AuthDirective extends SchemaDirectiveVisitor {
 
         Object.keys(fields).forEach(fieldName => {
             const field = fields[fieldName];
-            console.log(field);
             const { resolve = defaultFieldResolver } = field;
             field.resolve = async function (...args) {
                 // Get the required Role from the field first, falling back
@@ -38,10 +38,10 @@ class AuthDirective extends SchemaDirectiveVisitor {
 
                 const context = args[2];
                 console.log(context);
-                // const user = await getUser(context.headers.authToken);
-                // if (!user.hasRole(requiredRole)) {
-                throw new ApolloError("not authorized");
-                // }
+                const userContext = context.userContext;
+                if (!userContext || !userContext.roles.includes(requiredRole)) {              
+                    return null;
+                }
 
                 return resolve.apply(this, args);
             };
