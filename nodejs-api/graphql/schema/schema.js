@@ -2,6 +2,16 @@ const { gql } = require('apollo-server-express');
 
 // Construct a schema, using GraphQL schema language
 const schema = gql`
+    directive @auth(
+      requires: RoleEnum = USER,
+    ) on OBJECT | FIELD_DEFINITION
+
+    enum RoleEnum {
+      ADMIN
+      USER
+      GUEST
+    }
+
     type Booking {
         _id: ID!
         event: Event!
@@ -19,7 +29,7 @@ const schema = gql`
         creator: User!
     }
 
-    type User {
+    type User @auth(requires: USER) {
         _id: ID!
         email: String!
         password: String
@@ -30,6 +40,7 @@ const schema = gql`
     type Role {
       _id: ID!
       roleId: Int!
+      roleKey: String!
       description: String!
   }
 
