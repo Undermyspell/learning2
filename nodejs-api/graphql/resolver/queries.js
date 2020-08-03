@@ -9,7 +9,6 @@ const User = require("../../models/user");
 const queries = {
     events: async (parent, args, context, info) => {
         try {
-            console.log("events", context);
             const events = await Event.find();
             return events.map(event => {
                 return {
@@ -46,8 +45,10 @@ const queries = {
         if (!isEqual) {
             throw new Error('Password is incorrect!');
         }
+        const roles = await Role.find({ _id: { $in: user.userRoles} });
+
         const token = jwt.sign(
-            { userId: user.id, email: user.email },
+            { userId: user.id, email: user.email, roles: roles.map(role => role.roleKey) },
             process.env.JWT_SECRET,
             {
                 expiresIn: '1h'

@@ -7,10 +7,14 @@ const roleSchema = new Schema({
     type: Number,
     required: true
   },
+  roleKey: {
+    type: String,
+    required: true
+  },
   description: {
     type: String,
     required: true
-  }  
+  }
 });
 
 module.exports = mongoose.model('Role', roleSchema);
