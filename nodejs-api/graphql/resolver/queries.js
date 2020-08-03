@@ -3,6 +3,7 @@ const { ApolloError, ValidationError } = require("apollo-server-express");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Event = require("../../models/event");
+const Role = require("../../models/role");
 const User = require("../../models/user");
 
 const queries = {
@@ -17,8 +18,8 @@ const queries = {
                     date: dateToString(event._doc.date)
                 };
             });
-        } catch (err) {
-            throw err;
+        } catch (error) {
+            throw new ApolloError(error);
         }
     },
     user: async (_, args) => {
@@ -53,7 +54,20 @@ const queries = {
             }
         );
         return { userId: user.id, token: token, tokenExpiration: 1 };
-    }
+    },
+    roles: async () => {
+        try {
+            const roles = await Role.find();
+            return roles.map(role => {
+                return {
+                    ...role._doc,
+                    _id: role.id,
+                };
+            });
+        } catch (error) {
+            throw new ApolloError(error);
+        }
+    },
 }
 
 module.exports = queries;

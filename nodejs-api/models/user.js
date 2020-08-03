@@ -11,10 +11,14 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  createdEvents: [
-    {
+  createdEvents: [{
       type: Schema.Types.ObjectId,
       ref: 'Event'
+    }
+  ],
+  userRoles: [{
+      type: Schema.Types.ObjectId,
+      ref:  'Role'
     }
   ]
 });

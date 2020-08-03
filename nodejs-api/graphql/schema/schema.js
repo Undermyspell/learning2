@@ -24,7 +24,14 @@ const schema = gql`
         email: String!
         password: String
         createdEvents: [Event!]
+        userRoles: [Role!]
     }
+
+    type Role {
+      _id: ID!
+      roleId: Int!
+      description: String!
+  }
 
     type AuthData {
         userId: ID!
@@ -35,6 +42,7 @@ const schema = gql`
   input UserInput {
     email: String!
     password: String!
+    roles: [Int!]!
   }
 
   type Query {
@@ -42,6 +50,7 @@ const schema = gql`
     bookings: [Booking!]!
     login(email: String!, password: String!): AuthData!
     user(email: String!): User
+    roles: [Role!]!
   }
 
   type Mutation {
