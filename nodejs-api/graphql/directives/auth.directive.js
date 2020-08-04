@@ -37,7 +37,6 @@ class AuthDirective extends SchemaDirectiveVisitor {
                 }
 
                 const context = args[2];
-                console.log(context);
                 const userContext = context.userContext;
                 if (!userContext || !userContext.roles.includes(requiredRole)) {              
                     return null;

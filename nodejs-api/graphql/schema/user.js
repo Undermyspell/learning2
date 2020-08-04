@@ -2,9 +2,9 @@ const { gql } = require('apollo-server-express');
 
 // Construct a schema, using GraphQL schema language
 const user = gql`
-    type User  @auth(requires: ADMIN) {
+    type User  @auth(requires: USER) {
         _id: ID!
-        email: String!
+        email: String
         password: String
         createdEvents: [Event!]
         userRoles: [Role!] @auth(requires: ADMIN)
