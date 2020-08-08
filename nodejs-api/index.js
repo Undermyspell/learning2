@@ -1,5 +1,7 @@
 require('dotenv').config();
 const express = require('express');
+const https = require('https');
+const cookieParser = require('cookie-parser');
 const path = require("path");
 const fs = require("fs");
 const bodyParser = require('body-parser');
@@ -25,10 +27,28 @@ const server = new ApolloServer({
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cookieParser('mycookiesecre'));
 
 app.get("/", function (req, res) {
     res.send("Hello from container land!");
 });
+
+app.get("/takemycookie", function (req, res) {
+    console.log("signed cookies", req.signedCookies);
+    res.json({})
+});
+
+app.get("/givemecookie", function (req, res) {
+    res.cookie('mylearningcookie', 'hello from cookie', {
+        maxAge: 1000 * 60 * 15, // would expire after 15 minutes
+        httpOnly: true,
+        signed: true,
+        secure: true,
+        sameSite: 'strict'
+    })
+    res.json({})
+});
+
 
 app.get("/imageurls", (req, res, next) => {
     const filenames = [];
@@ -55,9 +75,20 @@ mongoose
         useUnifiedTopology: true
     })
     .then(() => {
-        app.listen(app.get("port"), () => {
-            console.log(`Server listening on port ${app.get("port")}`);
-        });
+        if (fs.existsSync('./security/cert.pem')) {
+            console.log("https is enabled for localhost");
+            https.createServer({
+                key: fs.readFileSync('./security/cert.key'),
+                cert: fs.readFileSync('./security/cert.pem')
+            }, app).listen(app.get("port"), () => {
+                console.log(`Server listening on port ${app.get("port")}`)
+            })
+
+        } else {
+            app.listen(app.get("port"), () => {
+                console.log(`Server listening on port ${app.get("port")}`);
+            });
+        }
     })
     .catch(err => {
         console.log(err);
