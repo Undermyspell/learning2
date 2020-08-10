@@ -8,13 +8,24 @@ const event = gql`
         description: String
         price: Float
         date: String
-        creator: User
+        creator: User @auth(requires: ADMIN)
+    }
+
+    input EventInput {
+      title: String!
+      description: String!
+      price: Float!
+      date: String!,
+      creator: ID!
     }
     
   extend type Query {
     events: [Event!]
   }
 
+  extend type Mutation {
+    createEvent(eventInput: EventInput): Event
+  }
 `;
 
 module.exports = event;
