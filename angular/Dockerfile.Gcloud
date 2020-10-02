@@ -1,0 +1,12 @@
+FROM node:alpine as builder
+WORKDIR /app
+COPY package*.json /app/
+RUN npm install
+COPY . .
+ARG env=staging
+RUN npm run build -- --output-path=./dist/out --configuration $env
+
+FROM nginx
+COPY ./nginx/default.gcloud.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/dist/out/ /usr/share/nginx/html
+CMD ["nginx", "-g", "daemon off;"]
