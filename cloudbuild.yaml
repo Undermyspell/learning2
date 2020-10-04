@@ -1,6 +1,6 @@
 steps:
     - name: "gcr.io/cloud-builders/docker"
-      args: ["build", "-t", "eu.gcr.io/$PROJECT_ID/$_ANGULARSERVICE", "--build-arg", "env=production", "./angular"]
+      args: ["build", "-t", "eu.gcr.io/$PROJECT_ID/$_ANGULARSERVICE", "--build-arg", "env=production", "-f", "./angular/Dockerfile.Gcloud", "./angular"]
   
     - name: "gcr.io/cloud-builders/docker"
       args: ["push", "eu.gcr.io/$PROJECT_ID/$_ANGULARSERVICE"]
@@ -9,7 +9,7 @@ steps:
       args: ["run", "deploy", "$_ANGULARSERVICE",
              "--platform", "managed", "--region", "europe-west1",
              "--allow-unauthenticated",
-             "--image",  "eu.gcr.io/$PROJECT_ID/$_ANGULARSERVICE"]
+             "--image",  "eu.gcr.io/$PROJECT_ID/$_ANGULARSERVICE:latest"]
 
 images:
     - "eu.gcr.io/$PROJECT_ID/$_ANGULARSERVICE"
