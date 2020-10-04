@@ -1,7 +1,7 @@
 steps:
     - name: "gcr.io/cloud-builders/docker"
     #   id: buildangular
-    #   waitFor: ["-"]
+      waitFor: ["-"]
       args: ["build", "-t", "eu.gcr.io/$PROJECT_ID/$_ANGULARSERVICE", "--build-arg", "env=production", "-f", "./angular/Dockerfile.Gcloud", "./angular"]
 
     # - name: "gcr.io/cloud-builders/docker"
