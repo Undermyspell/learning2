@@ -1,7 +1,7 @@
 steps:
     - name: "gcr.io/cloud-builders/docker"
-      id: buildangular
-      waitFor: ["-"]
+    #   id: buildangular
+    #   waitFor: ["-"]
       args: ["build", "-t", "eu.gcr.io/$PROJECT_ID/$_ANGULARSERVICE", "--build-arg", "env=production", "-f", "./angular/Dockerfile.Gcloud", "./angular"]
 
     # - name: "gcr.io/cloud-builders/docker"
@@ -10,7 +10,7 @@ steps:
     #   args: ["build", "-t", "eu.gcr.io/$PROJECT_ID/$_NODERSERVICE", "./nodejs-api"]
   
     - name: "gcr.io/cloud-builders/docker"
-      id: pushangular
+    #   id: pushangular
       args: ["push", "eu.gcr.io/$PROJECT_ID/$_ANGULARSERVICE"]
 
     # - name: "gcr.io/cloud-builders/docker"
@@ -18,8 +18,8 @@ steps:
     #   args: ["push", "eu.gcr.io/$PROJECT_ID/$_NODERSERVICE"]
   
     - name: "gcr.io/cloud-builders/gcloud"
-      id: deployangular
-      waitFor: pushangular
+    #   id: deployangular
+    #   waitFor: pushangular
       args: ["run", "deploy", "$_ANGULARSERVICE",
              "--platform", "managed", "--region", "europe-west1",
              "--allow-unauthenticated",
