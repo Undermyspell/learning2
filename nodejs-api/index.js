@@ -29,6 +29,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cookieParser('mycookiesecre'));
 
+app.get("/api", function (req, res) {
+    res.send("Hello from container land api route! :)");
+});
+
 app.get("/", function (req, res) {
     res.send("Hello from container land!");
 });
