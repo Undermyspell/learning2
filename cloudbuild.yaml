@@ -1,21 +1,21 @@
 steps:
     - name: "gcr.io/cloud-builders/docker"
       id: buildangular
-      waitFor: ['-']
+      waitFor: ["-"]
       args: ["build", "-t", "eu.gcr.io/$PROJECT_ID/$_ANGULARSERVICE", "--build-arg", "env=production", "-f", "./angular/Dockerfile.Gcloud", "./angular"]
 
     - name: "gcr.io/cloud-builders/docker"
       id: buildapi
-      waitFor: ['-']
+      waitFor: ["-"]
       args: ["build", "-t", "eu.gcr.io/$PROJECT_ID/$_NODERSERVICE", "./nodejs-api"]
   
     - name: "gcr.io/cloud-builders/docker"
       id: pushangular
       args: ["push", "eu.gcr.io/$PROJECT_ID/$_ANGULARSERVICE"]
 
-    - name: "gcr.io/cloud-builders/docker"
-      id: pushnodeapi
-      args: ["push", "eu.gcr.io/$PROJECT_ID/$_NODERSERVICE"]
+    # - name: "gcr.io/cloud-builders/docker"
+    #   id: pushnodeapi
+    #   args: ["push", "eu.gcr.io/$PROJECT_ID/$_NODERSERVICE"]
   
     - name: "gcr.io/cloud-builders/gcloud"
       id: deployangular
@@ -25,17 +25,17 @@ steps:
              "--allow-unauthenticated",
              "--image",  "eu.gcr.io/$PROJECT_ID/$_ANGULARSERVICE"]
 
-    - name: "gcr.io/cloud-builders/gcloud"
-      id: deploynodeapi
-      waitFor: pushnodeapi
-      args: ["run", "deploy", "$_NODERSERVICE",
-             "--platform", "managed", "--region", "europe-west1",
-             "--allow-unauthenticated",
-             "--image",  "eu.gcr.io/$PROJECT_ID/$_NODERSERVICE"]
+    # - name: "gcr.io/cloud-builders/gcloud"
+    #   id: deploynodeapi
+    #   waitFor: pushnodeapi
+    #   args: ["run", "deploy", "$_NODERSERVICE",
+    #          "--platform", "managed", "--region", "europe-west1",
+    #          "--allow-unauthenticated",
+    #          "--image",  "eu.gcr.io/$PROJECT_ID/$_NODERSERVICE"]
              
     # - name: "gcr.io/cloud-builders/gcloud"
     #   args: ["run", "services", "update-traffic", "$_ANGULARSERVICE", "--to-latest", "--platform", "managed", "--region", "europe-west1"]
 
 images:
     - "eu.gcr.io/$PROJECT_ID/$_ANGULARSERVICE"
-    - "eu.gcr.io/$PROJECT_ID/$_NODERSERVICE"
+    # - "eu.gcr.io/$PROJECT_ID/$_NODERSERVICE"
