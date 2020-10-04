@@ -7,35 +7,41 @@ steps:
     - name: "gcr.io/cloud-builders/docker"
       id: buildapi
       waitFor: ["-"]
-      args: ["build", "-t", "eu.gcr.io/$PROJECT_ID/$_NODERSERVICE", "./nodejs-api"]
+      args: ["build", "-t", "eu.gcr.io/$PROJECT_ID/$_NODESERVICE", "./nodejs-api"]
   
     - name: "gcr.io/cloud-builders/docker"
-    #   id: pushangular
+      id: pushangular
+      waitFor:
+        - buildangular
       args: ["push", "eu.gcr.io/$PROJECT_ID/$_ANGULARSERVICE"]
 
-    # - name: "gcr.io/cloud-builders/docker"
-    #   id: pushnodeapi
-    #   args: ["push", "eu.gcr.io/$PROJECT_ID/$_NODERSERVICE"]
+    - name: "gcr.io/cloud-builders/docker"
+      id: pushnodeapi
+      waitFor:
+        - buildapi
+      args: ["push", "eu.gcr.io/$PROJECT_ID/$_NODESERVICE"]
   
     - name: "gcr.io/cloud-builders/gcloud"
-    #   id: deployangular
-    #   waitFor: pushangular
+      id: deployangular
+      waitFor: 
+        - pushangular
       args: ["run", "deploy", "$_ANGULARSERVICE",
              "--platform", "managed", "--region", "europe-west1",
              "--allow-unauthenticated",
              "--image",  "eu.gcr.io/$PROJECT_ID/$_ANGULARSERVICE"]
 
-    # - name: "gcr.io/cloud-builders/gcloud"
-    #   id: deploynodeapi
-    #   waitFor: pushnodeapi
-    #   args: ["run", "deploy", "$_NODERSERVICE",
-    #          "--platform", "managed", "--region", "europe-west1",
-    #          "--allow-unauthenticated",
-    #          "--image",  "eu.gcr.io/$PROJECT_ID/$_NODERSERVICE"]
+    - name: "gcr.io/cloud-builders/gcloud"
+      id: deploynodeapi
+      waitFor:
+        - pushnodeapi
+      args: ["run", "deploy", "$_NODESERVICE",
+             "--platform", "managed", "--region", "europe-west1",
+             "--allow-unauthenticated",
+             "--image",  "eu.gcr.io/$PROJECT_ID/$_NODESERVICE"]
              
     # - name: "gcr.io/cloud-builders/gcloud"
     #   args: ["run", "services", "update-traffic", "$_ANGULARSERVICE", "--to-latest", "--platform", "managed", "--region", "europe-west1"]
 
 images:
     - "eu.gcr.io/$PROJECT_ID/$_ANGULARSERVICE"
-    # - "eu.gcr.io/$PROJECT_ID/$_NODERSERVICE"
+    - "eu.gcr.io/$PROJECT_ID/$_NODESERVICE"
