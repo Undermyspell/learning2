@@ -15,6 +15,7 @@ import { RootStoreModule } from "./root-store/root-store.module";
 import { LoginComponent } from './home/login/login.component';
 import { GraphQLModule } from './graphql.module';
 import { EditableComponent } from "./shared/components/editable/editable.component";
+import { CloudFuncsContainerComponent } from "./cloud-funcs/cloudfuncs.container.component";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { EditableComponent } from "./shared/components/editable/editable.compone
     NavComponent,
     DefaultComponent,
     LoginComponent,
-    EventContainerComponent
+    EventContainerComponent,
+    CloudFuncsContainerComponent
   ],
   imports: [
     BrowserModule,
