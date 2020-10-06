@@ -2,7 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const https = require("https");
 const cookieParser = require("cookie-parser");
-var cors = require("cors");
 const path = require("path");
 const fs = require("fs");
 const bodyParser = require("body-parser");
@@ -29,10 +28,6 @@ const server = new ApolloServer({
 const app = express();
 app.use(bodyParser.json());
 app.use(cookieParser("mycookiesecre"));
-app.use(cors({
-    origin: "https://developer.mozilla.org",
-    credentials: true
-}));
 
 app.get("/api", function (req, res) {
     res.send("Hello from container land!");
