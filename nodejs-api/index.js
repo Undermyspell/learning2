@@ -1,10 +1,11 @@
-require('dotenv').config();
-const express = require('express');
-const https = require('https');
-const cookieParser = require('cookie-parser');
+require("dotenv").config();
+const express = require("express");
+const https = require("https");
+const cookieParser = require("cookie-parser");
+var cors = require("cors");
 const path = require("path");
 const fs = require("fs");
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 const { ApolloServer } = require("apollo-server-express");
 const mongoose = require("mongoose");
 const typeDefs = require("./graphql/schema")
@@ -19,7 +20,7 @@ const server = new ApolloServer({
         auth: AuthDirective
     },
     context: ({ req }) => {
-        const token = req.headers.authorization || '';
+        const token = req.headers.authorization || "";
         const userContext = getUserContext(token);
         return { userContext };
     },
@@ -27,39 +28,39 @@ const server = new ApolloServer({
 
 const app = express();
 app.use(bodyParser.json());
-app.use(cookieParser('mycookiesecre'));
+app.use(cookieParser("mycookiesecre"));
+app.use(cors({
+    origin: "https://developer.mozilla.org",
+    credentials: true
+}));
 
 app.get("/api", function (req, res) {
-    res.send("Hello from container land api route! :)");
-});
-
-app.get("/", function (req, res) {
     res.send("Hello from container land!");
 });
 
-app.get("/takemycookie", function (req, res) {
+app.get("/api/takemycookie", function (req, res) {
     console.log("signed cookies", req.signedCookies);
     res.json({})
 });
 
-app.get("/givemecookie", function (req, res) {
-    res.cookie('mylearningcookie', 'hello from cookie', {
+app.get("/api/givemecookie", function (req, res) {
+    res.cookie("mylearningcookie", "hello from cookie", {
         maxAge: 1000 * 60 * 15, // would expire after 15 minutes
         httpOnly: true,
         signed: true,
         secure: true,
-        sameSite: 'strict'
+        sameSite: "strict"
     })
     res.json({})
 });
 
 
-app.get("/imageurls", (req, res, next) => {
+app.get("/api/imageurls", (req, res, next) => {
     const filenames = [];
-    const directoryPath = path.join(__dirname, 'images');
+    const directoryPath = path.join(__dirname, "images");
     fs.readdir(directoryPath, function (err, files) {
         if (err) {
-            return console.log('Unable to scan directory: ' + err);
+            return console.log("Unable to scan directory: " + err);
         }
         files.filter(file => file.match(/\.(svg|png|jpg|gif|svg)$/)).forEach(function (file) {
             filenames.push(file);
@@ -69,7 +70,7 @@ app.get("/imageurls", (req, res, next) => {
     });
 });
 
-app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use("/api/images", express.static(path.join(__dirname, "images")));
 
 app.set("port", process.env.PORT || 3000);
 mongoose
@@ -79,11 +80,11 @@ mongoose
         useUnifiedTopology: true
     })
     .then(() => {
-        if (fs.existsSync('./security/cert.pem')) {
+        if (fs.existsSync("./security/cert.pem")) {
             console.log("https is enabled for localhost");
             https.createServer({
-                key: fs.readFileSync('./security/cert.key'),
-                cert: fs.readFileSync('./security/cert.pem')
+                key: fs.readFileSync("./security/cert.key"),
+                cert: fs.readFileSync("./security/cert.pem")
             }, app).listen(app.get("port"), () => {
                 console.log(`Server listening on port ${app.get("port")}`)
             })
