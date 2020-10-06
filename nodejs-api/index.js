@@ -11,6 +11,7 @@ const typeDefs = require("./graphql/schema")
 const resolvers = require("./graphql/resolver/index")
 const { AuthDirective } = require("./graphql/directives/auth.directive");
 const { getUserContext } = require("./auth/usercontext");
+const { baseUrl } = require("./middleware/base-url");
 
 const server = new ApolloServer({
     typeDefs,
@@ -27,30 +28,37 @@ const server = new ApolloServer({
 
 const app = express();
 app.use(bodyParser.json());
-app.use(cookieParser("mycookiesecre"));
+app.use(cookieParser("mycookiesecret"));
+app.use(baseUrl("/api"));
 
-app.get("/api", function (req, res) {
+app.get("/", function (req, res) {
     res.send("Hello from container land!");
 });
 
-app.get("/api/takemycookie", function (req, res) {
+app.get("/takemycookie", function (req, res) {
     console.log("signed cookies", req.signedCookies);
-    res.json({})
+    res.json(req.signedCookies);
 });
 
-app.get("/api/givemecookie", function (req, res) {
-    res.cookie("mylearningcookie", "hello from cookie", {
+app.get("/givemecookie", function (req, res) {
+    const value = "hello from cookie";
+    const params =  {
         maxAge: 1000 * 60 * 15, // would expire after 15 minutes
         httpOnly: true,
         signed: true,
         secure: true,
         sameSite: "strict"
+    };
+    // @ts-ignore
+    res.cookie("mylearningcookie", value, params);
+    res.json({
+        value,
+        ...params
     })
-    res.json({})
 });
 
 
-app.get("/api/imageurls", (req, res, next) => {
+app.get("/imageurls", (req, res, next) => {
     const filenames = [];
     const directoryPath = path.join(__dirname, "images");
     fs.readdir(directoryPath, function (err, files) {
@@ -65,7 +73,7 @@ app.get("/api/imageurls", (req, res, next) => {
     });
 });
 
-app.use("/api/images", express.static(path.join(__dirname, "images")));
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.set("port", process.env.PORT || 3000);
 mongoose
@@ -94,4 +102,4 @@ mongoose
         console.log(err);
     });
 
-server.applyMiddleware({ app });
+server.applyMiddleware({ app});
