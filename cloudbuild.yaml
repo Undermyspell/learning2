@@ -27,7 +27,6 @@ steps:
         - pushangular
       args: ["run", "deploy", "$_ANGULARSERVICE",
              "--platform", "managed", "--region", "europe-west1",
-             "--allow-unauthenticated",
              "--image",  "eu.gcr.io/$PROJECT_ID/$_ANGULARSERVICE"]
 
     - name: "gcr.io/cloud-builders/gcloud"
@@ -36,7 +35,6 @@ steps:
         - pushnodeapi
       args: ["run", "deploy", "$_NODESERVICE",
              "--platform", "managed", "--region", "europe-west1",
-             "--allow-unauthenticated",
              "--image",  "eu.gcr.io/$PROJECT_ID/$_NODESERVICE"]
              
     # - name: "gcr.io/cloud-builders/gcloud"
