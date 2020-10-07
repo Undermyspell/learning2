@@ -10,6 +10,8 @@ import { EditModeDirective } from './directives/editmode.directive';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { LearningHttpInterceptor } from "./interceptors/learning-http.interceptor";
+import { AngularFireModule } from "@angular/fire";
+import { environment } from "src/environments/environment";
 
 @NgModule({
   declarations: [
@@ -22,7 +24,8 @@ import { LearningHttpInterceptor } from "./interceptors/learning-http.intercepto
     EditModeDirective
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    AngularFireModule.initializeApp(environment.firebase)
   ],
   exports: [
     SpinnerComponent,
