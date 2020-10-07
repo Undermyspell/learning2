@@ -28,7 +28,6 @@ steps:
       args: ["run", "deploy", "$_ANGULARSERVICE",
              "--platform", "managed", "--region", "europe-west1",
              "--allow-unauthenticated",
-             "--connectivity", "internal",
              "--image",  "eu.gcr.io/$PROJECT_ID/$_ANGULARSERVICE"]
 
     - name: "gcr.io/cloud-builders/gcloud"
@@ -38,7 +37,6 @@ steps:
       args: ["run", "deploy", "$_NODESERVICE",
              "--platform", "managed", "--region", "europe-west1",
              "--allow-unauthenticated",
-             "--connectivity", "internal",
              "--image",  "eu.gcr.io/$PROJECT_ID/$_NODESERVICE"]
              
     # - name: "gcr.io/cloud-builders/gcloud"
