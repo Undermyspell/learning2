@@ -6,11 +6,9 @@ node_js:
 services:
 - docker
 before_install:
-- openssl aes-256-cbc -k "$GCLOUD_SA_KEY" -in gcloud_sa_key.json.enc -out gcloud_sa_key.json
-  -d
+- openssl aes-256-cbc -K $encrypted_5cff05baf1ef_key -iv $encrypted_5cff05baf1ef_iv -in gcloud_sa_key.json.enc -out gcloud_sa_key.json -d
 - wget -qO- https://toolbelt.heroku.com/install.sh | sh
 - gcloud auth activate-service-account --key-file=gcloud_sa_key.json
-# - gcloud auth configure-docker
 - gcloud config set project $GCLOUD_PROJECT_ID
 stages:
 - Test
@@ -21,10 +19,8 @@ jobs:
   - stage: Test
     name: Run tests on the Angular Frontend
     script:
-    - docker build -t eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest --build-arg env=$FRONTEND_ENVIRONMENT
+    - docker build -t $DOCKER_USERNAME/docker_frontend_dev --build-arg env=$FRONTEND_ENVIRONMENT
       -f ./angular/Dockerfile.Test ./angular
+    - docker tag $DOCKER_USERNAME/docker_frontend_dev eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest
     - docker push eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest
     - docker run --rm eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest npm run test:ci
-env:
-  global:
-    secure: e108WYKynKovS/6nT1NIk3nqm12gcFwfBNLpIamvgriS3K97DDR3zW2NrBwu7hWGr0Iuca4qKM7PLTbXQaGjr41mFpkdyEQ/QO2nnNVnq1ytqcusKDTpp2xYoiD9oCPcCFzgYbYwZN7CgnaGABdpfSxFjZdHZDfiiVoFF5EoqP0b2adJJSnGGm4Dxx4UYQaHTfLcREx/e69jl0yyMW04JItyp8rsB4AGYx0hQaQKmTpNRBTx8bmb566h0cC+vazKCkWSo3reNBTpxKpOaMHPA8AvvqVxQoJ8V3ffQAQwbgQ3i6IOKmDwF8PqE/LSOlYuLqbsTzBHlcapqca35HJaa1Fpk7vccUfmO8I+26UQB6Jz7QImel0u/0gR/r6nzuVqitbcjRhCX+I0kIRRGWUFNhqnoCDQpjh5SlSjXK9XLH8AJVnmWrfYo2c2G09Gi9Kr3Pcdm9NwHaNZCza/pilOO7RQfLF4rxmLpxlja8a5rD19SCxdGrlrp/TZ0BqsPtygTemC4X2aW+wyYxMqhsKWzSo5NzuOY6XZyOYCP+F9UlHF+71gW1Cg4ot3FSLjvLCeivSBoVD9wXDssBHDjf1ilMl/dOsSWOqSgliN87Gs5hxBGYtxoc5OVmthow8aWEW69zBx8TRvKHReJ0/03o9Gw8vP5mjmpuCs3Nan38KBE6I=
