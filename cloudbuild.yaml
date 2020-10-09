@@ -1,13 +1,13 @@
 steps:
     - name: "gcr.io/cloud-builders/docker"
-      args: ["build", "-t", "eu.gcr.io/$PROJECT_ID/ANGULARTEST", "-f", "./angular/Dockerfile.Test", "./angular"]
+      args: ["build", "-t", "eu.gcr.io/$PROJECT_ID/angulartest", "-f", "./angular/Dockerfile.Test", "./angular"]
 
     - name: "gcr.io/cloud-builders/docker"
-      args: ["push", "eu.gcr.io/$PROJECT_ID/ANGULARTEST"]
+      args: ["push", "eu.gcr.io/$PROJECT_ID/angulartest"]
 
     - name: "gcr.io/cloud-builders/docker"
       id: testangular
-      args: ["run", "--rm", "eu.gcr.io/$PROJECT_ID/ANGULARTEST", "npm", "run", "test:ci"]
+      args: ["run", "--rm", "eu.gcr.io/$PROJECT_ID/angulartest", "npm", "run", "test:ci"]
 
     - name: "gcr.io/cloud-builders/docker"
       id: buildangular
