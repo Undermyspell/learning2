@@ -8,8 +8,10 @@ services:
 
 before_install:
   - wget -qO- https://toolbelt.heroku.com/install.sh | sh
-  #- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
+  - openssl aes-256-cbc -K $encrypted_49cae59f57d3_key -iv $encrypted_49cae59f57d3_iv -in mkkeys.json.enc -out mkkeys.json -d
+  - gcloud auth activate-service-account --key-file=mkkeys.json
+  - gcloud auth configure-docker
+  - gcloud config set project $GCLOUD_PROJECT_ID
 
 stages:
   - Test
@@ -21,35 +23,35 @@ jobs:
     - stage: Test
       name: "Run tests on the Angular Frontend"
       script:
-        - docker build -t $DOCKER_USERNAME/docker_frontend_dev --build-arg env=$FRONTEND_ENVIRONMENT -f ./angular/Dockerfile.Test ./angular
-        - docker tag $DOCKER_USERNAME/docker_frontend_dev registry.heroku.com/$HEROKU_APP_FRONTEND/web/dev
-        - docker push registry.heroku.com/$HEROKU_APP_FRONTEND/web/dev
-        - docker run --rm registry.heroku.com/$HEROKU_APP_FRONTEND/web/dev npm run test:ci
-    - stage: Build               
-      name: "Build Angular Frontend Docker image"           
-      script: 
-        - docker build -t $DOCKER_USERNAME/docker_frontend --build-arg env=$FRONTEND_ENVIRONMENT ./angular
-        - docker tag $DOCKER_USERNAME/docker_frontend registry.heroku.com/$HEROKU_APP_FRONTEND/web
-        - docker push registry.heroku.com/$HEROKU_APP_FRONTEND/web
-    - stage: Build               
-      name: "Build Docker NodeJS/Express Api Docker Image"           
-      script: 
-        - docker build -t $DOCKER_USERNAME/docker_backend ./nodejs-api
-        - docker tag $DOCKER_USERNAME/docker_backend registry.heroku.com/$HEROKU_APP_BACKEND/web
-        - docker push registry.heroku.com/$HEROKU_APP_BACKEND/web
-    - stage: Build               
-      name: "Build Nginx Proxy Server Docker Image"           
-      script: 
-        - docker build -t $DOCKER_USERNAME/docker_nginx ./nginx
-        - docker tag $DOCKER_USERNAME/docker_nginx registry.heroku.com/$HEROKU_APP_NGINX/web; 
-        - docker push registry.heroku.com/$HEROKU_APP_NGINX/web;
-    - stage: Deploy
-      if: branch = master
-      name: "Deploy Docker containers on Heroku"
-      script: 
-        # no prompt to type username and password
-        # because HEROKU_API_KEY is set as environment variable in Travis CI on branch obtained by heroku auth:token
-        - heroku container:login
-        - heroku container:release web --app $HEROKU_APP_FRONTEND
-        - heroku container:release web --app $HEROKU_APP_BACKEND
-        - heroku container:release web --app $HEROKU_APP_NGINX
+        - docker build -t eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest --build-arg env=$FRONTEND_ENVIRONMENT -f ./angular/Dockerfile.Test ./angular
+        # - docker tag $DOCKER_USERNAME/docker_frontend_dev registry.heroku.com/$HEROKU_APP_FRONTEND/web/dev
+        - docker push eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest
+        - docker run --rm eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest npm run test:ci
+    # - stage: Build               
+    #   name: "Build Angular Frontend Docker image"           
+    #   script: 
+    #     - docker build -t $DOCKER_USERNAME/docker_frontend --build-arg env=$FRONTEND_ENVIRONMENT ./angular
+    #     - docker tag $DOCKER_USERNAME/docker_frontend registry.heroku.com/$HEROKU_APP_FRONTEND/web
+    #     - docker push registry.heroku.com/$HEROKU_APP_FRONTEND/web
+    # - stage: Build               
+    #   name: "Build Docker NodeJS/Express Api Docker Image"           
+    #   script: 
+    #     - docker build -t $DOCKER_USERNAME/docker_backend ./nodejs-api
+    #     - docker tag $DOCKER_USERNAME/docker_backend registry.heroku.com/$HEROKU_APP_BACKEND/web
+    #     - docker push registry.heroku.com/$HEROKU_APP_BACKEND/web
+    # - stage: Build               
+    #   name: "Build Nginx Proxy Server Docker Image"           
+    #   script: 
+    #     - docker build -t $DOCKER_USERNAME/docker_nginx ./nginx
+    #     - docker tag $DOCKER_USERNAME/docker_nginx registry.heroku.com/$HEROKU_APP_NGINX/web; 
+    #     - docker push registry.heroku.com/$HEROKU_APP_NGINX/web;
+    # - stage: Deploy
+    #   if: branch = master
+    #   name: "Deploy Docker containers on Heroku"
+    #   script: 
+    #     # no prompt to type username and password
+    #     # because HEROKU_API_KEY is set as environment variable in Travis CI on branch obtained by heroku auth:token
+    #     - heroku container:login
+    #     - heroku container:release web --app $HEROKU_APP_FRONTEND
+    #     - heroku container:release web --app $HEROKU_APP_BACKEND
+    #     - heroku container:release web --app $HEROKU_APP_NGINX
