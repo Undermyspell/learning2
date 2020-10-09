@@ -6,7 +6,7 @@ node_js:
 services:
 - docker
 before_install:
-- openssl aes-256-cbc -k "{$GCLOUD_FILE_SECRET}" -in gcloud_sa_key.json.enc -out gcloud_sa_key.json -d
+- openssl aes-256-cbc -k "BJrz%GFK?QTf692Q" -in gcloud_sa_key.json.enc -out gcloud_sa_key.json -d
 - wget -qO- https://toolbelt.heroku.com/install.sh | sh
 - gcloud auth activate-service-account --key-file=gcloud_sa_key.json
 - gcloud auth configure-docker
