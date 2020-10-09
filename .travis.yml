@@ -12,7 +12,7 @@ before_install:
 - openssl aes-256-cbc -k "$GCLOUD_SA_KEY" -in gcloud_sa_key.json.enc -out gcloud_sa_key.json -d
 # - wget -qO- https://toolbelt.heroku.com/install.sh | sh
 # - docker login -u _json_key --password-stdin https://eu.gcr.io < gcloud_sa_key.json
-- gcloud auth activate-service-account $GCLOUD_SERVICE_ACCOUNT --key-file=google-key.json
+- gcloud auth activate-service-account $GCLOUD_SERVICE_ACCOUNT --key-file=gcloud_sa_key.json
 - gcloud auth configure-docker
 - gcloud config set project "${GCLOUD_PROJECT_ID}"
 stages:
