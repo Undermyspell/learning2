@@ -10,7 +10,7 @@ before_install:
   -d
 - wget -qO- https://toolbelt.heroku.com/install.sh | sh
 - gcloud auth activate-service-account --key-file=gcloud_sa_key.json
-- gcloud auth configure-docker
+# - gcloud auth configure-docker
 - gcloud config set project $GCLOUD_PROJECT_ID
 stages:
 - Test
