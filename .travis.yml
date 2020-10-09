@@ -20,8 +20,7 @@ jobs:
   - stage: Test
     name: Run tests on the Angular Frontend
     script:
-    - docker build -t $DOCKER_USERNAME/docker_frontend_dev --build-arg env=$FRONTEND_ENVIRONMENT
-      -f ./angular/Dockerfile.Test ./angular
+    - docker build -t $DOCKER_USERNAME/docker_frontend_dev --build-arg env=$FRONTEND_ENVIRONMENT -f ./angular/Dockerfile.Test ./angular
     - docker tag $DOCKER_USERNAME/docker_frontend_dev eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest
     - docker push eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest
     - docker run --rm eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest npm run test:ci
