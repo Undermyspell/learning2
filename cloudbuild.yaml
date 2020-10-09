@@ -1,49 +1,51 @@
 steps:
     - name: "gcr.io/cloud-builders/docker"
+      id: buildtest_image
       args: ["build", "-t", "eu.gcr.io/$PROJECT_ID/angulartest", "-f", "./angular/Dockerfile.Test", "./angular"]
 
     - name: "gcr.io/cloud-builders/docker"
+      id: pushtest_image
       args: ["push", "eu.gcr.io/$PROJECT_ID/angulartest"]
 
     - name: "gcr.io/cloud-builders/docker"
-      id: testangular
+      id: test_angular
       args: ["run", "--rm", "eu.gcr.io/$PROJECT_ID/angulartest", "npm", "run", "test:ci"]
 
     - name: "gcr.io/cloud-builders/docker"
-      id: buildangular
-      waitFor: ["testangular"]
+      id: build_angular
+      waitFor: ["test_angular"]
       args: ["build", "-t", "eu.gcr.io/$PROJECT_ID/$_ANGULARSERVICE", "--build-arg", "env=production", "-f", "./angular/Dockerfile.Gcloud", "./angular"]
 
     - name: "gcr.io/cloud-builders/docker"
-      id: buildapi
-      waitFor: ["testangular"]
+      id: build_api
+      waitFor: ["test_angular"]
       args: ["build", "-t", "eu.gcr.io/$PROJECT_ID/$_NODESERVICE", "./nodejs-api"]
   
     - name: "gcr.io/cloud-builders/docker"
-      id: pushangular
+      id: push_angular
       waitFor:
-        - buildangular
+        - build_angular
       args: ["push", "eu.gcr.io/$PROJECT_ID/$_ANGULARSERVICE"]
 
     - name: "gcr.io/cloud-builders/docker"
-      id: pushnodeapi
+      id: push_nodeapi
       waitFor:
-        - buildapi
+        - build_api
       args: ["push", "eu.gcr.io/$PROJECT_ID/$_NODESERVICE"]
   
     - name: "gcr.io/cloud-builders/gcloud"
-      id: deployangular
+      id: deploy_angular
       waitFor: 
-        - pushangular
+        - push_angular
       args: ["run", "deploy", "$_ANGULARSERVICE",
              "--platform", "managed", "--region", "europe-west1",
              "--allow-unauthenticated",
              "--image",  "eu.gcr.io/$PROJECT_ID/$_ANGULARSERVICE"]
 
     - name: "gcr.io/cloud-builders/gcloud"
-      id: deploynodeapi
+      id: deploy_nodeapi
       waitFor:
-        - pushnodeapi
+        - push_nodeapi
       args: ["run", "deploy", "$_NODESERVICE",
              "--platform", "managed", "--region", "europe-west1",
              "--allow-unauthenticated",
