@@ -1,19 +1,22 @@
 steps:
     - name: "gcr.io/cloud-builders/docker"
-      id: buildtestimage
       args: ["build", "-t", "eu.gcr.io/$PROJECT_ID/ANGULARTEST", "-f", "./angular/Dockerfile.Test", "./angular"]
 
     - name: "gcr.io/cloud-builders/docker"
       args: ["push", "eu.gcr.io/$PROJECT_ID/ANGULARTEST"]
 
     - name: "gcr.io/cloud-builders/docker"
+      id: testangular
+      args: ["run", "--rm", "eu.gcr.io/$PROJECT_ID/ANGULARTEST", "npm", "run", "test:ci"]
+
+    - name: "gcr.io/cloud-builders/docker"
       id: buildangular
-      waitFor: ["testfrontend"]
+      waitFor: ["testangular"]
       args: ["build", "-t", "eu.gcr.io/$PROJECT_ID/$_ANGULARSERVICE", "--build-arg", "env=production", "-f", "./angular/Dockerfile.Gcloud", "./angular"]
 
     - name: "gcr.io/cloud-builders/docker"
       id: buildapi
-      waitFor: ["testfrontend"]
+      waitFor: ["testangular"]
       args: ["build", "-t", "eu.gcr.io/$PROJECT_ID/$_NODESERVICE", "./nodejs-api"]
   
     - name: "gcr.io/cloud-builders/docker"
