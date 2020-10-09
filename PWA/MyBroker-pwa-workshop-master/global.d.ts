@@ -1,1 +1,0 @@
-declare const workbox: typeof import ("workbox-sw");
