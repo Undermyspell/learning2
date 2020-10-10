@@ -33,4 +33,4 @@ jobs:
       - docker build -t $DOCKER_USERNAME/docker_frontend --build-arg env=$FRONTEND_ENVIRONMENT ./angular
       - docker tag $DOCKER_USERNAME/docker_frontend eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_ANGULARSERVICE
       - docker push eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_ANGULARSERVICE
-      - gcloud run deploy $ANGULARSERVICE --platform=managed --region=europe-west1 --allow-unauthenticated --image=eu.gcr.io/$GCLOUD_PROJECT_ID/$ANGULARSERVICE
+      - gcloud run deploy $GCLOUD_ANGULARSERVICE --platform=managed --region=europe-west1 --allow-unauthenticated --image=eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_ANGULARSERVICE
