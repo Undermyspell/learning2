@@ -10,7 +10,6 @@ env:
     - CLOUDSDK_CORE_DISABLE_PROMPTS=1
 before_install:
 - openssl aes-256-cbc -k "$GCLOUD_SA_KEY" -in gcloud_sa_key.json.enc -out gcloud_sa_key.json -d
-# - wget -qO- https://toolbelt.heroku.com/install.sh | sh
 # - docker login -u _json_key --password-stdin https://eu.gcr.io < gcloud_sa_key.json
 - gcloud auth activate-service-account $GCLOUD_SERVICE_ACCOUNT --key-file=gcloud_sa_key.json
 - gcloud auth configure-docker
@@ -21,13 +20,17 @@ stages:
 - Deploy
 jobs:
   include:
-  - stage: Test
-    name: Run tests on the Angular Frontend
-    script:
-    - docker build -t $DOCKER_USERNAME/docker_frontend_dev --build-arg env=$FRONTEND_ENVIRONMENT -f ./angular/Dockerfile.Test ./angular
-    - docker tag $DOCKER_USERNAME/docker_frontend_dev eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest
-    - docker push eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest
-    - docker run --rm eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest npm run test:ci
-# env:
-#   global:
-#     secure: fa0yNQaUgVONoSfac9d4a8wF0X/E4U19JvsNZXUsdcl0ap4XHA8NMob0nutVIuKCbdCkD223OrgLQCOHGNBLhkBsP5XtOOkxJc2U/6xBZ2nMi5i418YjcjRMQNVpmbHG60UdOwVSCmZ6qOS6H8Mb46UOTpTi4oSEP8UPF2Jb6wQcIAkbKCfKJPgzbdlzwdZ+CxS+xoTzU84syEhBk93qGf/Z7B4fpIRCqjRDOVQGlz70PVHWnOaxjPXi+KguhavGEE9uliWSk5Vf94LQCIZgSIyetlZQ8skFRGc/KiJL/dFA2Yt7b68C2qxCDQU/5LBCbP7e6gm7LQstVjR97vEVzfwKmV1ongCxKlCJJDqmwoBifd94+t0q4CiM9u3KUYx32fGoft/CmB2YS6Sb9xqzoo7QxiPp+EdMCOc5geeOB3N2M96Q0DZGBSa2z15dGCxFyIwcRBC9NhFpd5i5oRBBD1x0lR5ZDlfoSl91tKiAoZxa3/KPd0EzV0fh/Xp4QnnluRyASXXBavBOycbY6JSdm99HT+8FmIYU7cVhzmFOm1vM42dtcISeEpDpHSkuOKgiFjm1KXwG6qaFFM1l4mHBLPePwx85ivXxdcBKTEtbpdcJBQiPVyqu3NnvL0AzoLJWsEf7/DrVgIsjq22NzrUfmeVHpAcrA9GyXjFYvBKpkvw=
+  # - stage: Test
+  #   name: Run tests on the Angular Frontend
+  #   script:
+  #   - docker build -t $DOCKER_USERNAME/docker_frontend_dev --build-arg env=$FRONTEND_ENVIRONMENT -f ./angular/Dockerfile.Test ./angular
+  #   - docker tag $DOCKER_USERNAME/docker_frontend_dev eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest
+  #   - docker push eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest
+  #   - docker run --rm eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest npm run test:ci
+  - stage: Build               
+    name: "Build Angular Frontend Docker image"           
+    script: 
+      - docker build -t $DOCKER_USERNAME/docker_frontend --build-arg env=$FRONTEND_ENVIRONMENT ./angular
+      - docker tag $DOCKER_USERNAME/docker_frontend eu.gcr.io/$PROJECT_ID/$GCLOUD_ANGULARSERVICE
+      - docker push eu.gcr.io/$PROJECT_ID/$GCLOUD_ANGULARSERVICE
+      - gcloud run deploy $ANGULARSERVICE --platform=managed --region=europe-west1 --allow-unauthenticated --image=eu.gcr.io/$PROJECT_ID/$ANGULARSERVICE
