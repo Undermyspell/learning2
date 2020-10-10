@@ -20,17 +20,28 @@ stages:
 - Deploy
 jobs:
   include:
-  # - stage: Test
-  #   name: Run tests on the Angular Frontend
-  #   script:
-  #   - docker build -t $DOCKER_USERNAME/docker_frontend_dev --build-arg env=$FRONTEND_ENVIRONMENT -f ./angular/Dockerfile.Test ./angular
-  #   - docker tag $DOCKER_USERNAME/docker_frontend_dev eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest
-  #   - docker push eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest
-  #   - docker run --rm eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest npm run test:ci
+  - stage: Test
+    name: Run Angular tests in Docker Container
+    script:
+    - docker build -t $DOCKER_USERNAME/docker_frontend_dev --build-arg env=$FRONTEND_ENVIRONMENT -f ./angular/Dockerfile.Test ./angular
+    - docker tag $DOCKER_USERNAME/docker_frontend_dev eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest
+    - docker push eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest
+    - docker run --rm eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest npm run test:ci
   - stage: Build               
-    name: "Build Angular Frontend Docker image"           
+    name: "Build Angular Frontend Docker Image"           
     script: 
       - docker build -t $DOCKER_USERNAME/docker_frontend --build-arg env=$FRONTEND_ENVIRONMENT -f ./angular/Dockerfile.Gcloud ./angular
       - docker tag $DOCKER_USERNAME/docker_frontend eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_ANGULARSERVICE
       - docker push eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_ANGULARSERVICE
+  - stage: Build               
+    name: "Build Docker NodeJS/Express Api Docker Image"           
+    script: 
+      - docker build -t $DOCKER_USERNAME/docker_backend ./nodejs-api
+      - docker tag $DOCKER_USERNAME/docker_backend eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_NODESERVICE
+      - docker push eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_NODESERVICE
+  - stage: Deploy
+    if: branch = master
+    name: "Deploy Docker containers on Cloudrun in Google Cloud"
+    script: 
       - gcloud run deploy $GCLOUD_ANGULARSERVICE --platform=managed --region=europe-west1 --allow-unauthenticated --image=eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_ANGULARSERVICE
+      - gcloud run deploy $GCLOUD_NODESERVICE --platform=managed --region=europe-west1 --allow-unauthenticated --image=eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_NODESERVICE
