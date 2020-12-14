@@ -25,6 +25,7 @@ jobs:
     script:
     - docker build -t $DOCKER_USERNAME/docker_frontend_dev --build-arg env=$FRONTEND_ENVIRONMENT -f ./angular/Dockerfile.Test ./angular
     - docker tag $DOCKER_USERNAME/docker_frontend_dev eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest
+    - docker image rm eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest
     - docker push eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest
     - docker run --rm eu.gcr.io/$GCLOUD_PROJECT_ID/angulartest npm run test:ci
   - stage: Build               
@@ -32,12 +33,14 @@ jobs:
     script: 
       - docker build -t $DOCKER_USERNAME/docker_frontend --build-arg env=$FRONTEND_ENVIRONMENT -f ./angular/Dockerfile.Gcloud ./angular
       - docker tag $DOCKER_USERNAME/docker_frontend eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_ANGULARSERVICE
+      - docker image rm eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_ANGULARSERVICE
       - docker push eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_ANGULARSERVICE
   - stage: Build               
     name: "Build Docker NodeJS/Express Api Docker Image"           
     script: 
       - docker build -t $DOCKER_USERNAME/docker_backend ./nodejs-api
       - docker tag $DOCKER_USERNAME/docker_backend eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_NODESERVICE
+      - docker image rm eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_NODESERVICE
       - docker push eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_NODESERVICE
   - stage: Deploy
     if: branch = master
