@@ -83,20 +83,20 @@ mongoose
         useUnifiedTopology: true
     })
     .then(() => {
-        if (fs.existsSync("./security/cert.pem")) {
-            console.log("https is enabled for localhost");
-            https.createServer({
-                key: fs.readFileSync("./security/cert.key"),
-                cert: fs.readFileSync("./security/cert.pem")
-            }, app).listen(app.get("port"), () => {
-                console.log(`Server listening on port ${app.get("port")}`)
-            })
+        // if (fs.existsSync("./security/cert.pem")) {
+        //     console.log("https is enabled for localhost");
+        //     https.createServer({
+        //         key: fs.readFileSync("./security/cert.key"),
+        //         cert: fs.readFileSync("./security/cert.pem")
+        //     }, app).listen(app.get("port"), () => {
+        //         console.log(`Server listening on port ${app.get("port")}`)
+        //     })
 
-        } else {
+        // } else {
             app.listen(app.get("port"), () => {
                 console.log(`Server listening on port ${app.get("port")}`);
             });
-        }
+        // }
     })
     .catch(err => {
         console.log(err);
