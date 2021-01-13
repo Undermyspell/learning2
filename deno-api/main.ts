@@ -1,7 +1,32 @@
-import { serve } from "https://deno.land/std@0.83.0/http/server.ts";
+import { Application, Router } from "https://deno.land/x/oak/mod.ts";
 
-const server = serve({ port: 7000 });
-console.log("http://localhost:7000/");
-for await (const req of server) {
-  req.respond({ body: "Hello World\n" });
-}
+const port = 7000;
+
+const app = new Application();
+const router = new Router();
+app.use(router.routes());
+app.use(router.allowedMethods());
+
+router.get("/", (ctx) => {
+  ctx.response.body = "🦕 Hello from a Deno Container 🦕";
+});
+
+router.get("/givemecookie", (ctx) => {
+  ctx.cookies.set("denocookie", "deno", {
+    maxAge: 15,
+    httpOnly: true,
+    signed: true,
+    secure: true,
+    sameSite: "strict"
+  });
+
+  const spongebob = {
+    name: "spongebob",
+    bestFriend: "patrick"
+  };
+
+  ctx.response.body = spongebob;
+});
+
+
+await app.listen({ port });
