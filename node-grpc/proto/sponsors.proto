@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+service SponsorsService {
+    rpc GetAll (Empty) returns (SponsorList) {}
+    rpc Get (SponsorRequestId) returns (Sponsor) {}
+}
+
+message Empty {}
+
+message Sponsor {
+    string id = 1;
+    string name = 2;
+    int32 established = 3;
+    string country = 4;
+}
+
+message SponsorList {
+    repeated Sponsor sponsors = 1;
+}
+
+message SponsorRequestId {
+    string id = 1;
+}
