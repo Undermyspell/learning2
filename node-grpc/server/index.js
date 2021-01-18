@@ -20,5 +20,5 @@ const PORT = process.env.PORT || 30043;
 const ADDRESS = process.env.ADDRESS || "0.0.0.0";
 
 console.log(`Server listening on ${ADDRESS}:${PORT}`)
-server.bind(`${ADRESS}:${PORT}`, grpc.ServerCredentials.createInsecure());
+server.bind(`${ADDRESS}:${PORT}`, grpc.ServerCredentials.createInsecure());
 server.start();

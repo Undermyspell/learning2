@@ -8,7 +8,7 @@ const sponsorsService = {
     },
 
     get: (call, callback) => {
-        console.log(`received get for id ${call.request.id}`)
+        console.log(`received get for id ${call.request.id}`);
         let sponsor = sponsors.find(n => n.id == call.request.id);
 
         if (sponsor) {

@@ -12,6 +12,7 @@ const resolvers = require("./graphql/resolver/index")
 const { AuthDirective } = require("./graphql/directives/auth.directive");
 const { getUserContext } = require("./auth/usercontext");
 const { baseUrl } = require("./middleware/base-url");
+const client = require("./grpcclient/client");
 
 const server = new ApolloServer({
     typeDefs,
@@ -74,6 +75,24 @@ app.get("/imageurls", (req, res, next) => {
 });
 
 app.use("/images", express.static(path.join(__dirname, "images")));
+
+app.get("/sponsors", (req, res) => {
+    client.getAll(null, (err, data) => {
+        if (!err) {
+            res.json(data.sponsors);
+        }
+    });
+});
+
+app.get("/sponsor/:id", (req, res) => {
+    client.get({ id: req.params.id }, (err, data) => {
+        if (!err) {
+            res.json(data);
+        } else {
+            res.json(err);
+        }
+    });
+});
 
 app.set("port", process.env.PORT || 3000);
 mongoose
