@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  grpc-client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.Dev
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+    ports: 
+      - "9000:9000"
+    environment: 
+      - GRPCENDPOINT=grpc-server
+  grpc-server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.Dev
+    volumes:
+      - /app/node_modules
+      - ./server:/app

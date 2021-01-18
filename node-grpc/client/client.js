@@ -1,4 +1,4 @@
-const PROTO_PATH = "../proto/sponsors.proto";
+const PROTO_PATH = "./proto/sponsors.proto";
 
 const grpc = require("grpc");
 const protoLoader = require("@grpc/proto-loader");
@@ -10,9 +10,13 @@ var packageDefinition = protoLoader.loadSync(PROTO_PATH, {
     arrays: true
 });
 
+const GRPCENDPOINT = process.env.GRPCENDPOINT || "localhost";
+const PORT = process.env.PORT || 30043;
+
+console.log(`gRPC endpoint: ${GRPCENDPOINT}`)
 const SponsorsService = grpc.loadPackageDefinition(packageDefinition).SponsorsService;
 const client = new SponsorsService(
-    "localhost:30043",
+    `${GRPCENDPOINT}:${PORT}`,
     grpc.credentials.createInsecure()
 );
 
