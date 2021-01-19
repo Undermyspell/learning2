@@ -1,5 +1,5 @@
 const { sponsors } = require("../data/sponsors");
-var grpc = require("grpc");
+var grpc = require("@grpc/grpc-js");
 
 const sponsorsService = {
     getAll: (_, callback) => {
