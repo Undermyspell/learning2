@@ -39,9 +39,16 @@ jobs:
       - docker build -t $DOCKER_USERNAME/docker_backend ./nodejs-api
       - docker tag $DOCKER_USERNAME/docker_backend eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_NODESERVICE
       - docker push eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_NODESERVICE
+    stage: Build               
+    name: "Build Docker NodeJS/gRPC-Server Docker Image"           
+    script: 
+      - docker build -t $DOCKER_USERNAME/docker_grpc_server ./node-grpc/server
+      - docker tag $DOCKER_USERNAME/docker_grpc_server eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_NODEGRPCSERVER
+      - docker push eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_NODEGRPCSERVER
   - stage: Deploy
     if: branch = master
     name: "Deploy Docker containers on Cloudrun in Google Cloud"
     script: 
       - gcloud run deploy $GCLOUD_ANGULARSERVICE --platform=managed --region=europe-west1 --allow-unauthenticated --image=eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_ANGULARSERVICE
       - gcloud run deploy $GCLOUD_NODESERVICE --platform=managed --region=europe-west1 --allow-unauthenticated --image=eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_NODESERVICE
+      - gcloud run deploy $GCLOUD_NODEGRPCSERVER --platform=managed --region=europe-west1 --allow-unauthenticated --image=eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_NODEGRPCSERVER
