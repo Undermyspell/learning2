@@ -17,7 +17,7 @@ const server = new grpc.Server();
 server.addService(sponsorsProto.SponsorsService.service, sponsorsService);
 
 const PORT = process.env.PORT || 30043;
-const ADDRESS = process.env.ADDRESS || "0.0.0.0";
+const ADDRESS = "0.0.0.0";
 
 
 server.bindAsync(
@@ -27,7 +27,7 @@ server.bindAsync(
         if (err != null) {
           return console.error(err);
         }
-        console.log(`gRPC listening on ${ port }`);
+        console.log(`gRPC listening on ${ADDRESS} ${ port }`);
         server.start();
       },
 );
