@@ -39,7 +39,7 @@ jobs:
       - docker build -t $DOCKER_USERNAME/docker_backend ./nodejs-api
       - docker tag $DOCKER_USERNAME/docker_backend eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_NODESERVICE
       - docker push eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_NODESERVICE
-    stage: Build               
+  - stage: Build               
     name: "Build Docker NodeJS/gRPC-Server Docker Image"           
     script: 
       - docker build -t $DOCKER_USERNAME/docker_grpc_server ./node-grpc/server
