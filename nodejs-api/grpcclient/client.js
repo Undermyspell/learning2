@@ -12,12 +12,12 @@ var packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 
 const GRPCENDPOINT = process.env.GRPCENDPOINT || "localhost";
 const GRPCPORT = process.env.GRPCPORT || 30043;
+const channelCredentials = GRPCPORT == 443 ? grpc.credentials.createSsl() : grpc.credentials.createInsecure();
 
-console.log(`gRPC endpoint: ${GRPCENDPOINT}`)
+console.log(`gRPC endpoint: ${GRPCENDPOINT}:${GRPCPORT}`)
 const SponsorsService = grpc.loadPackageDefinition(packageDefinition).SponsorsService;
 const client = new SponsorsService(
     `${GRPCENDPOINT}:${GRPCPORT}`,
-    grpc.credentials.createInsecure()
+    channelCredentials
 );
-
 module.exports = client;
