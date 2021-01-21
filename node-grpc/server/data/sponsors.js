@@ -8,6 +8,12 @@ const sponsors = [{
     name: "Snowfreaks",
     established: 2013,
     country: "Germany"
+},
+{
+    id: "333",
+    name: "Vantage",
+    established: 2015,
+    country: "France"
 }
 ];
 

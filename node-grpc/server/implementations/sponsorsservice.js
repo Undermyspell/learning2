@@ -20,6 +20,13 @@ const sponsorsService = {
             });
         }
     },
+
+    streamAll: (call) =>  {
+        sponsors.forEach(sponsor => {
+            call.write(sponsor);
+        });
+        call.end();
+    },
 }
 
 module.exports = sponsorsService;

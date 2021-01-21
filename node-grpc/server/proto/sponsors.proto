@@ -3,6 +3,7 @@ syntax = "proto3";
 service SponsorsService {
     rpc GetAll (Empty) returns (SponsorList) {}
     rpc Get (SponsorRequestId) returns (Sponsor) {}
+    rpc StreamAll(Empty) returns (stream Sponsor) {}
 }
 
 message Empty {}

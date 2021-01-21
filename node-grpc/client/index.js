@@ -1,6 +1,7 @@
 const client = require("./client");
 const express = require("express");
 const bodyParser = require("body-parser");
+const { sponsors } = require("../server/data/sponsors");
 
 const app = express();
 
@@ -22,6 +23,22 @@ app.get("/sponsor/:id", (req, res) => {
         } else {
             res.json(err);
         }
+    });
+});
+
+app.get("/sponsors/streamall", (req, res) => {
+    var sponsors = [];
+    var call = client.streamAll();
+    call.on("data", function (sponsor) {
+        console.log(`received sponsor ${sponsor.id} from server`);
+        sponsors.push(sponsor);
+    });
+    call.on("end", function () {
+        console.log("the server finished sending");
+        res.json(sponsors);
+    });
+    call.on("error", function (e) {
+        res.json("an error occured streaming the sponsors :(");
     });
 });
 
