@@ -1,7 +1,6 @@
 const client = require("./client");
 const express = require("express");
 const bodyParser = require("body-parser");
-const { sponsors } = require("../server/data/sponsors");
 
 const app = express();
 
