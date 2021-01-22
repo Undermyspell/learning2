@@ -22,16 +22,16 @@ var sponsorsProto = grpc.loadPackageDefinition(packageDefinition);
 const server = new grpc.Server();
 server.addService(sponsorsProto.SponsorsService.service, sponsorsService);
 
-const PORTGRPC = process.env.PORTGRPC || 30043;
+const PORT = process.env.PORT || 30043;
 const ADDRESS = "0.0.0.0";
 
-const PORT = process.env.PORT || 2021;
-app.listen(PORT, () => {
-    console.log("Client running at port %d", PORT);
+const PORTEXPRESS = process.env.PORTEXPRESS || 2021;
+app.listen(PORTEXPRESS, () => {
+    console.log("Client running at port %d", PORTEXPRESS);
 });
 
 server.bindAsync(
-    `${ADDRESS}:${PORTGRPC}`,
+    `${ADDRESS}:${PORT}`,
     grpc.ServerCredentials.createInsecure(),
     (err, port) => {
         if (err != null) {
