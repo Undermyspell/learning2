@@ -27,10 +27,16 @@
   transition: all 400ms
   filter: grayscale(100%) opacity(0.7)
 
-  svg:not(.nav-link-header-image)
+  svg
     min-width: 2rem
+    max-width: 2rem
+
+  svg:not(.nav-link-header-image)
     margin: 0 1.5rem
     color: var(--icon-background)
+
+  .nav-link-header-image
+    display: none
 
   &:hover
     filter: grayscale(0%) opacity(1)
@@ -58,6 +64,7 @@
   .logo
     svg.nav-link-header-image
       min-width: 2rem
+      max-width: 2rem
       margin: 0 0 0 1.5rem
       color: var(--icon-background)
     svg:not(.nav-link-header-image)
@@ -78,4 +85,6 @@
     &:hover
       width: 16rem
       .link-text
+        display: block
+      .nav-link-header-image
         display: block

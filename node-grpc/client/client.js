@@ -10,7 +10,7 @@ var packageDefinition = protoLoader.loadSync(PROTO_PATH, {
     arrays: true
 });
 
-const GRPCENDPOINT = process.env.GRPCENDPOINT || "mknode-grpc-server-jufkqxqefa-ew.a.run.app";
+const GRPCENDPOINT = process.env.GRPCENDPOINT || "localhost";
 const PORT = process.env.PORT || 443;
 const channelCredentials = PORT == 443 ? grpc.credentials.createSsl() : grpc.credentials.createInsecure();
 
