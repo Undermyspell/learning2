@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { ImagesService } from "./images.service";
+import { ImagesService } from "../services/images.service";
 
 @Controller('images')
 export class ImagesController {
