@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { Event } from "../models/event";
+// import { Event } from "../models/event";
+import { Event } from "../graphql/models/event.model";
 import { Event as MongoEvent, EventDocument } from "../schemas/event.schema";
 
 @Injectable()

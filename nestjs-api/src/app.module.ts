@@ -7,6 +7,12 @@ import { ImagesController } from './controllers/images.controller';
 import { EventService } from "./services/event.service";
 import { ImagesService } from './services/images.service';
 import { Event, EventSchema } from "./schemas/event.schema";
+import { User, UserSchema } from "./schemas/user.schema";
+import { GraphQLModule } from "@nestjs/graphql";
+import { join } from "path";
+import { EventResolver } from "./graphql/resolvers/event.resolver";
+import { UserService } from "./services/user.service";
+import { UserResolver } from "./graphql/resolvers/user.resolver";
 
 @Module({
   imports: [
@@ -15,9 +21,13 @@ import { Event, EventSchema } from "./schemas/event.schema";
       useNewUrlParser: true,
       useUnifiedTopology: true
     }),
-    MongooseModule.forFeature([{ name: Event.name, schema: EventSchema }])
+    MongooseModule.forFeature([{ name: Event.name, schema: EventSchema }]),
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    GraphQLModule.forRoot({
+      autoSchemaFile: join(process.cwd(), "src/graphql/schema/schema.gql"),
+    })
   ],
   controllers: [AppController, ImagesController],
-  providers: [AppService, ImagesService, EventService],
+  providers: [AppService, ImagesService, EventService, UserService, EventResolver, UserResolver],
 })
 export class AppModule { }

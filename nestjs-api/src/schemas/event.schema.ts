@@ -15,7 +15,7 @@ export class Event {
     description: string;
 
     @Prop({ required: true })
-    price: number; EventMongo
+    price: number;
 
     @Prop({ required: true })
     date: Date;

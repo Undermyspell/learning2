@@ -1,0 +1,36 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Role {
+  roleId: Float!
+  roleKey: String!
+  description: String!
+}
+
+type User {
+  id: ID!
+  email: String!
+  password: String!
+  createdEvents: [Event!]
+  userRoles: [Role!]
+}
+
+type Event {
+  id: ID!
+  title: String!
+  description: String!
+  price: Float!
+  date: DateTime!
+  creator: User!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Query {
+  events: [Event!]!
+  user(email: String!): User!
+}

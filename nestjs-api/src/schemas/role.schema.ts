@@ -4,7 +4,7 @@ export type RoleDocument = Role & Document;
 
 @Schema()
 export class Role {
-
+  
   @Prop({ required: true })
   roleId: number;
 

@@ -2,6 +2,7 @@ import * as mongoose from "mongoose";
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Event } from "./event.schema";
 import { Role } from "./role.schema";
+import { Document } from "mongoose";
 
 export type UserDocument = User & Document;
 

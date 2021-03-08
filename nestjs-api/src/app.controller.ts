@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { Event } from "./models/event";
 import { EventService } from "./services/event.service";
+import {Event} from "./graphql/models/event.model";
 
 @Controller()
 export class AppController {
