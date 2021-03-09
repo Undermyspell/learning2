@@ -1,3 +1,4 @@
+import { UserContextProvider } from './auth/user-context.provider';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
@@ -8,11 +9,14 @@ import { EventService } from "./services/event.service";
 import { ImagesService } from './services/images.service';
 import { Event, EventSchema } from "./schemas/event.schema";
 import { User, UserSchema } from "./schemas/user.schema";
+import { Role, RoleSchema } from "./schemas/role.schema";
 import { GraphQLModule } from "@nestjs/graphql";
 import { join } from "path";
 import { EventResolver } from "./graphql/resolvers/event.resolver";
 import { UserService } from "./services/user.service";
 import { UserResolver } from "./graphql/resolvers/user.resolver";
+import { AuthService } from "./services/auth.service";
+import { AuthDirective } from "./directives/auth.directive";
 
 @Module({
   imports: [
@@ -23,11 +27,16 @@ import { UserResolver } from "./graphql/resolvers/user.resolver";
     }),
     MongooseModule.forFeature([{ name: Event.name, schema: EventSchema }]),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([{ name: Role.name, schema: RoleSchema }]),
     GraphQLModule.forRoot({
       autoSchemaFile: join(process.cwd(), "src/graphql/schema/schema.gql"),
+      schemaDirectives: {
+        auth: AuthDirective
+      },
+      context: ({ req }) => ({ userContext: UserContextProvider.tryGetUserContext(req.headers.authorization || "") })
     })
   ],
   controllers: [AppController, ImagesController],
-  providers: [AppService, ImagesService, EventService, UserService, EventResolver, UserResolver],
+  providers: [AppService, ImagesService, EventService, UserService, AuthService, EventResolver, UserResolver],
 })
 export class AppModule { }

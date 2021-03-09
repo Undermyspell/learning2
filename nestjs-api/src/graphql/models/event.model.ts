@@ -1,5 +1,6 @@
-import { Field, ID, Int, ObjectType } from "@nestjs/graphql";
+import { Directive, Field, ID, Int, ObjectType } from "@nestjs/graphql";
 import { EventDocument } from "src/schemas/event.schema";
+import { RoleKey } from "../enums/role.enum";
 import { User } from "./user.model";
 
 @ObjectType()
@@ -35,7 +36,8 @@ export class Event {
     @Field()
     date: Date;
 
-    @Field(() => User)
+    @Directive(`@auth(requires: ${RoleKey[RoleKey.ADMIN]})`)
+    @Field(() => User, { nullable: true })
     creator: User;
 
     static fromMongoDb(eventDocument: EventDocument): Event {
