@@ -16,7 +16,7 @@ export class UserService {
             .exec();
 
         const user = User.fromMongoDb(userDoc);
-
+       
         return user;
     }
 

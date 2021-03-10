@@ -12,13 +12,13 @@ export class Event {
         description: string,
         price: number,
         date: Date,
-        creatorId: string) {
+        creator: string) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.price = price;
         this.date = date;
-        this.creator = new User(creatorId, null);
+        this.creator = User.fromId(creator)
     }
 
     @Field(() => ID)
@@ -41,6 +41,10 @@ export class Event {
     creator: User;
 
     static fromMongoDb(eventDocument: EventDocument): Event {
-        return new Event(eventDocument.id, eventDocument.title, eventDocument.description, eventDocument.price, eventDocument.date, eventDocument.creator.toString());
+        return new Event(eventDocument.id, eventDocument.title, eventDocument.description, eventDocument.price, eventDocument.date, eventDocument.creator);
+    }
+
+    static fromId(id: string): Event {
+        return new Event(id, "", "", 0, null, "");
     }
 }

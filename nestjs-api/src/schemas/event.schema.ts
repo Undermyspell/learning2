@@ -21,7 +21,7 @@ export class Event {
     date: Date;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: "User" })
-    creator: User;
+    creator: string;
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);

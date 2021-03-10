@@ -3,6 +3,7 @@
 # ------------------------------------------------------
 
 type Role {
+  id: ID!
   roleId: Float!
   roleKey: RoleKey!
   description: String!
@@ -46,4 +47,5 @@ type Query {
   events: [Event!]!
   login(password: String!, email: String!): AuthData!
   user(email: String!): User!
+  roles: [Role!]!
 }

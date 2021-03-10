@@ -16,10 +16,10 @@ export class User {
     password: string;
 
     @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }] })
-    createdEvents: Event[];
+    createdEvents: string[];
 
     @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Role" }] })
-    userRoles: Role[];
+    userRoles: string[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

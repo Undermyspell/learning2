@@ -1,3 +1,4 @@
+import { RoleService } from './../../services/role.service';
 import { Args, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
 import { UserContext } from "src/auth/user-context";
 import { CurrentUser } from "src/decorators/current-user.decorator";
@@ -12,6 +13,7 @@ export class UserResolver {
     constructor(
         private readonly eventService: EventService,
         private readonly userService: UserService,
+        private readonly roleService: RoleService,
         private readonly authService: AuthService) {
     }
 
@@ -25,7 +27,18 @@ export class UserResolver {
     async user(
         @CurrentUser() user: UserContext,
         @Args("email") email: string) {
-        console.log(user);
         return this.userService.getByMail(email);
+    }
+
+    @ResolveField()
+    async createdEvents(@Parent() user: User) {
+        const { createdEvents } = user;
+        return this.eventService.getByIds(createdEvents.map(ev => ev.id));
+    }
+
+    @ResolveField()
+    async userRoles(@Parent() user: User) {
+        const { userRoles } = user;
+        return this.roleService.getByIds(userRoles.map(ev => ev.id));
     }
 }

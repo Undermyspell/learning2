@@ -15,8 +15,10 @@ import { join } from "path";
 import { EventResolver } from "./graphql/resolvers/event.resolver";
 import { UserService } from "./services/user.service";
 import { UserResolver } from "./graphql/resolvers/user.resolver";
+import { RoleResolver } from "./graphql/resolvers/role.resolver";
 import { AuthService } from "./services/auth.service";
 import { AuthDirective } from "./directives/auth.directive";
+import { RoleService } from "./services/role.service";
 
 @Module({
   imports: [
@@ -37,6 +39,6 @@ import { AuthDirective } from "./directives/auth.directive";
     })
   ],
   controllers: [AppController, ImagesController],
-  providers: [AppService, ImagesService, EventService, UserService, AuthService, EventResolver, UserResolver],
+  providers: [AppService, ImagesService, EventService, UserService, AuthService, RoleService, EventResolver, UserResolver, RoleResolver],
 })
 export class AppModule { }

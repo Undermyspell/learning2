@@ -21,4 +21,14 @@ export class EventService {
 
         return events;
     }
+
+    async getByIds(ids: string[]): Promise<Event[]> {
+        const mongoDbDocs = await this.eventModel
+            .find({ _id: { $in: ids } })
+            .exec();
+
+        const events = mongoDbDocs.map(doc => Event.fromMongoDb(doc));
+
+        return events;
+    }
 }
