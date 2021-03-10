@@ -25,7 +25,6 @@ export class UserResolver {
 
     @Query(() => User)
     async user(
-        @CurrentUser() user: UserContext,
         @Args("email") email: string) {
         return this.userService.getByMail(email);
     }

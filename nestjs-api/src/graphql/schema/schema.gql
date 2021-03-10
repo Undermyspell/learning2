@@ -49,3 +49,14 @@ type Query {
   user(email: String!): User!
   roles: [Role!]!
 }
+
+type Mutation {
+  createEvent(eventInput: EventInput!): Event!
+}
+
+input EventInput {
+  title: String!
+  description: String!
+  price: Float!
+  date: DateTime!
+}
