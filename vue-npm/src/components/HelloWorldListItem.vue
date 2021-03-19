@@ -15,12 +15,15 @@ import { Emit, Prop } from "vue-property-decorator";
 export default class HelloWorldListItem extends Vue {
   @Prop({ default: "" }) readonly text!: string;
 
+  textInner: string = "";
+
   get longText(): string {
-    return `long -- ${this.text} -- long`;
+    return `long -- ${this.textInner} -- long`;
   }
 
   @Emit("todo-decrement")
   onDecrement() {
+    this.textInner = "you decremented me";
     return 15;
   }
 }
@@ -36,7 +39,7 @@ export default class HelloWorldListItem extends Vue {
     transition: 300ms all ease-in-out;
     &:hover {
       color: teal;
-      transform: scale(2)
+      transform: scale(2);
     }
   }
 }
