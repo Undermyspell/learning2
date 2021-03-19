@@ -1,0 +1,1 @@
+export { default as HelloWorldList } from "./components/HelloWorldList.vue";
