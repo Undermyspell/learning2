@@ -1,18 +1,19 @@
 {
-  "name": "firsttest",
+  "name": "hoodinivuetest2",
   "version": "0.1.0",
-  "private": true,
+  "description": "test vue package",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "build-lib": "vue-cli-service build --target lib src/index.ts && npm pack && shx mv ./firsttest-0.1.0.tgz ..",
+    "build-lib2": "vue-cli-service build --target lib --name hoodinivuetest2 src/index.ts",
     "lint": "vue-cli-service lint"
   },
   "files": [
     "dist/*",
     "types/*"
   ],
-  "main": "./dist/firsttest.umd.js",
+  "main": "./dist/hoodinivuetest2.umd.js",
   "types": "./types/index.d.ts",
   "dependencies": {
     "core-js": "^3.6.5",
@@ -38,5 +39,7 @@
     "shx": "^0.3.3",
     "typescript": "~4.1.5",
     "vue-template-compiler": "^2.6.11"
-  }
+  },
+  "author": "hoodini",
+  "license": "ISC"
 }
