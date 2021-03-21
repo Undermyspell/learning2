@@ -1,42 +1,31 @@
 <template>
   <div>
     <div class="list">
-      <div v-for="item in items" v-bind:key="item.text">
+      <div v-for="todo in todos" v-bind:key="todo.id">
         <HelloWorldListItem
-          v-bind:text="item.text"
+          v-bind:todo="todo"
           v-on:todo-decrement="decrement($event)"
         />
       </div>
-      <div>
-        {{ count }}
-      </div>
-      <button v-on:click="increment">Click me!</button>
     </div>
+    <div>
+      {{ count }}
+    </div>
+    <button v-on:click="increment">Click me!</button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from "vue";
+import { defineComponent, ref } from "vue";
 import HelloWorldListItem from "./HelloWorldListItem.vue";
+import useTodos from "../composables/useTodos";
 
 export default defineComponent({
   name: "HelloWorldList",
-  props: {
-    msg: String,
-  },
   setup() {
     const count = ref(0);
-    const items = reactive([
-      {
-        text: "hi you",
-      },
-      {
-        text: "got you",
-      },
-      {
-        text: "goodbye youe",
-      },
-    ]);
+    const { todos } = useTodos();
+
     const increment = () => {
       count.value += 100;
     };
@@ -45,7 +34,7 @@ export default defineComponent({
       count.value -= amount;
     };
 
-    return { count, increment, decrement, items };
+    return { count, increment, decrement, todos };
   },
   components: {
     HelloWorldListItem,
@@ -56,6 +45,8 @@ export default defineComponent({
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .list {
+  overflow: auto;
+  height: 500px;
   background: lightgreen;
   display: flex;
   align-items: center;

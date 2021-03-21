@@ -1,18 +1,19 @@
 <template>
   <div class="todo-item">
-    <span>{{ text }}</span>
+    <span>{{ todo.title }}</span>
     <span>{{ longText }}</span>
     <button v-on:click="onDecrement">decrement me!</button>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
+import { Todo } from "@/models/todo";
 
 export default defineComponent({
   name: "HelloWorldListItem",
   props: {
-    text: String,
+    todo: { type: Object as PropType<Todo> },
   },
   setup(props, { emit }) {
     const innerText = ref("");
