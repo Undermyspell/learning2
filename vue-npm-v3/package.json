@@ -1,25 +1,22 @@
 {
-  "name": "@hoodiniorg/hoodinivuetest2",
+  "name": "@hoodiniorg/hoodinivuetest",
   "version": "0.1.0",
-  "description": "test vue package",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build-lib": "vue-cli-service build --target lib src/index.ts && npm pack && shx mv ./firsttest-0.1.0.tgz ..",
-    "build-lib2": "vue-cli-service build --target lib --name hoodinivuetest2 src/index.ts",
+    "build-lib": "vue-cli-service build --target lib src/index.ts && npm pack && shx mv ./hoodinivuetest-0.1.0.tgz ..",
+    "build-lib2": "vue-cli-service build --target lib --name hoodinivuetest src/index.ts",
     "lint": "vue-cli-service lint"
   },
   "files": [
     "dist/*",
     "types/*"
   ],
-  "main": "./dist/hoodinivuetest2.umd.js",
+  "main": "./dist/hoodinivuetest.umd.js",
   "types": "./types/index.d.ts",
   "dependencies": {
     "core-js": "^3.6.5",
-    "vue": "^2.6.11",
-    "vue-class-component": "^7.2.6",
-    "vue-property-decorator": "^9.1.2"
+    "vue": "^3.0.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.18.0",
@@ -28,17 +25,16 @@
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^7.0.0",
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-vue": "^6.2.2",
+    "eslint-plugin-vue": "^7.0.0",
     "prettier": "^2.2.1",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
-    "shx": "^0.3.3",
-    "typescript": "~4.1.5",
-    "vue-template-compiler": "^2.6.11"
+    "typescript": "~4.1.5"
   },
   "author": "hoodini",
   "license": "ISC"

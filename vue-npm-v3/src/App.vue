@@ -1,17 +1,16 @@
 <template>
-  <div id="app">
-    <HelloWorldList/>
-  </div>
+  <img alt="Vue logo" src="./assets/logo.png" />
+  <HelloWorldList/>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue";
 import HelloWorldList from "./components/HelloWorldList.vue";
 
-export default Vue.extend({
+export default defineComponent({
   name: "App",
   components: {
-    HelloWorldList
+    HelloWorldList,
   },
 });
 </script>

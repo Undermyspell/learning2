@@ -1,4 +1,4 @@
-# firsttest
+# vue-npm-v3
 
 ## Project setup
 ```

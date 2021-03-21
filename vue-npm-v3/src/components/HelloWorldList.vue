@@ -1,6 +1,5 @@
 <template>
   <div>
-    <img alt="Vue logo" src="../assets/logo.png" />
     <div class="list">
       <div v-for="item in items" v-bind:key="item.text">
         <HelloWorldListItem
@@ -15,40 +14,46 @@
     </div>
   </div>
 </template>
-<script>
+
+<script lang="ts">
+import { defineComponent, reactive, ref } from "vue";
 import HelloWorldListItem from "./HelloWorldListItem.vue";
 
-export default {
+export default defineComponent({
   name: "HelloWorldList",
-  data: () => {
-    return {
-      count: 0,
-      items: [
-        {
-          text: "hi you",
-        },
-        {
-          text: "got you",
-        },
-        {
-          text: "goodbye youe",
-        },
-      ],
-    };
+  props: {
+    msg: String,
   },
-  methods: {
-    increment: function () {
-      this.count += 100;
-    },
-    decrement: function (amount) {
-      this.count -= amount;
-    },
+  setup() {
+    const count = ref(0);
+    const items = reactive([
+      {
+        text: "hi you",
+      },
+      {
+        text: "got you",
+      },
+      {
+        text: "goodbye youe",
+      },
+    ]);
+    const increment = () => {
+      count.value += 100;
+    };
+
+    const decrement = (amount: number) => {
+      count.value -= amount;
+    };
+
+    return { count, increment, decrement, items };
   },
   components: {
     HelloWorldListItem,
   },
-};
+});
 </script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .list {
   background: lightgreen;
