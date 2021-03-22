@@ -2,11 +2,12 @@
   <div>
     <div class="list">
       <div v-for="todo in todos" :key="todo.id">
-        <HelloWorldListItem :todo="todo" @todo-decrement="decrement($event)">
+        <HelloWorldListItem :todo="todo" @todo-complete="completeTodo($event)">
           <template #todo-template="{ todo }">
-            <span>
-              {{ todo.id }}
-            </span>
+            <div>
+              <span v-if="todo.completed"> ✔ </span>
+              <span> {{ todo.id }} {{ todo.title }} </span>
+            </div>
           </template>
         </HelloWorldListItem>
       </div>
@@ -27,17 +28,13 @@ export default defineComponent({
   name: "HelloWorldList",
   setup() {
     const count = ref(0);
-    const { todos } = useTodos();
+    const { todos, completeTodo } = useTodos();
 
     const increment = () => {
       count.value += 100;
     };
 
-    const decrement = (amount: number) => {
-      count.value -= amount;
-    };
-
-    return { count, increment, decrement, todos };
+    return { count, increment, completeTodo, todos };
   },
   components: {
     HelloWorldListItem,

@@ -1,13 +1,12 @@
 <template>
   <div class="todo-item">
     <slot name="todo-template" :todo="todo"></slot>
-    <span>{{ completedMessage }}</span>
-    <button @click="onDecrement">complete me!</button>
+    <button @click="onComplete(todo)">complete me!</button>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from "vue";
+import { defineComponent, PropType } from "vue";
 import { Todo } from "@/models/todo";
 
 export default defineComponent({
@@ -16,15 +15,11 @@ export default defineComponent({
     todo: { type: Object as PropType<Todo> },
   },
   setup(props, { emit }) {
-    const completed = ref("");
-    const completedMessage = computed(() => ` -- ${completed.value} -- `);
-
-    const onDecrement = () => {
-      completed.value = "✔";
-      emit("todo-decrement", 25);
+    const onComplete = (todo: Todo) => {
+      emit("todo-complete", todo);
     };
 
-    return { completedMessage, onDecrement };
+    return { onComplete };
   },
 });
 </script>

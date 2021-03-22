@@ -8,7 +8,11 @@ export default function useTodos() {
         todos.value = await response.json() as Todo[];
     }
 
+    const completeTodo = (todo: Todo) => {
+        todo.completed = true;
+    }
+
     onMounted(getTodos);
 
-    return { todos, getTodos };
+    return { todos, getTodos, completeTodo };
 }
