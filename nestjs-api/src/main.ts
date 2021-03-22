@@ -6,6 +6,7 @@ import { AppModule } from "./app.module";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  app.setGlobalPrefix("api");
   app.useStaticAssets(join(__dirname, "..", "static/images"), { prefix: "/pics" });
 
   const config = new DocumentBuilder()
@@ -15,7 +16,7 @@ async function bootstrap() {
     .addTag("NestJS")
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup("swagger", app, document);
+  SwaggerModule.setup("api/swagger", app, document);
   
   const port = process.env.PORT || 4000;
   await app.listen(port);

@@ -35,6 +35,7 @@ import { RoleService } from "./services/role.service";
       schemaDirectives: {
         auth: AuthDirective
       },
+      useGlobalPrefix: true,
       context: ({ req }) => ({ userContext: UserContextProvider.tryGetUserContext(req.headers.authorization || "") })
     })
   ],
