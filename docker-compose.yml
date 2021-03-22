@@ -9,13 +9,11 @@ services:
       - ./angular:/app
   api:
     build:
-      context: ./nodejs-api
+      context: ./nestjs-api
       dockerfile: Dockerfile.Dev
     volumes:
       - /app/node_modules
-      - ./nodejs-api:/app
-    environment: 
-      - GRPCENDPOINT=grpc-server
+      - ./nestjs-api:/app
   grpc-server:
     build:
       context: ./node-grpc/server
