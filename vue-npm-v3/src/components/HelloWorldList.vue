@@ -1,11 +1,14 @@
 <template>
   <div>
     <div class="list">
-      <div v-for="todo in todos" v-bind:key="todo.id">
-        <HelloWorldListItem
-          v-bind:todo="todo"
-          v-on:todo-decrement="decrement($event)"
-        />
+      <div v-for="todo in todos" :key="todo.id">
+        <HelloWorldListItem :todo="todo" @todo-decrement="decrement($event)">
+          <template #todo-template="{ todo }">
+            <span>
+              {{ todo.id }}
+            </span>
+          </template>
+        </HelloWorldListItem>
       </div>
     </div>
     <div>

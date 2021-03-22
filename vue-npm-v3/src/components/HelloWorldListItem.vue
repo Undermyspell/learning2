@@ -1,8 +1,8 @@
 <template>
   <div class="todo-item">
-    <span>{{ todo.title }}</span>
-    <span>{{ longText }}</span>
-    <button v-on:click="onDecrement">decrement me!</button>
+    <slot name="todo-template" :todo="todo"></slot>
+    <span>{{ completedMessage }}</span>
+    <button @click="onDecrement">complete me!</button>
   </div>
 </template>
 
@@ -16,30 +16,28 @@ export default defineComponent({
     todo: { type: Object as PropType<Todo> },
   },
   setup(props, { emit }) {
-    const innerText = ref("");
-    const longText = computed(() => `long -- ${innerText.value} -- long`);
+    const completed = ref("");
+    const completedMessage = computed(() => ` -- ${completed.value} -- `);
 
     const onDecrement = () => {
-      innerText.value = "you decremented me";
+      completed.value = "✔";
       emit("todo-decrement", 25);
     };
 
-    return { longText, onDecrement };
+    return { completedMessage, onDecrement };
   },
 });
 </script>
 
 <style lang="scss" scoped>
 .todo-item {
-  align-items: center;
   display: flex;
-  flex-direction: column;
 
   button {
     transition: 300ms all ease-in-out;
     &:hover {
       color: teal;
-      transform: scale(2);
+      background-color: lightcoral;
     }
   }
 }
