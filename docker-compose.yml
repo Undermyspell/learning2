@@ -14,13 +14,13 @@ services:
     volumes:
       - /app/node_modules
       - ./nestjs-api:/app
-  grpc-server:
-    build:
-      context: ./node-grpc/server
-      dockerfile: Dockerfile.Dev
-    volumes:
-      - /app/node_modules
-      - ./node-grpc/server:/app
+  # grpc-server:
+  #   build:
+  #     context: ./node-grpc/server
+  #     dockerfile: Dockerfile.Dev
+  #   volumes:
+  #     - /app/node_modules
+  #     - ./node-grpc/server:/app
   nginx:
     restart: always
     build:

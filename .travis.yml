@@ -34,9 +34,9 @@ jobs:
       - docker tag $DOCKER_USERNAME/docker_frontend eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_ANGULARSERVICE
       - docker push eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_ANGULARSERVICE
   - stage: Build               
-    name: "Build Docker NodeJS/Express Api Docker Image"           
+    name: "Build Docker NestJs Api Docker Image"           
     script: 
-      - docker build -t $DOCKER_USERNAME/docker_backend ./nodejs-api
+      - docker build -t $DOCKER_USERNAME/docker_backend ./nestjs-api
       - docker tag $DOCKER_USERNAME/docker_backend eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_NODESERVICE
       - docker push eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_NODESERVICE
   - stage: Build               

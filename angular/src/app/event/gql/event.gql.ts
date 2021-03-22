@@ -3,7 +3,7 @@ import { Query } from 'apollo-angular';
 import gql from 'graphql-tag';
 
 export interface Event {
-  _id: string;
+  id: string;
   title: string;
   description: string;
   price: number;
@@ -21,10 +21,10 @@ export class EventsGQL extends Query<Response> {
   document = gql`
       query events {
         events {
-          _id
+          id
           title
           description
         }
-      } 
+      }
   `;
 }
