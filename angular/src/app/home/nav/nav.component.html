@@ -20,7 +20,7 @@
       </a>
     </li>
     <li class="nav-item">
-      <a routerLink="/default" class="nav-link" id="light" (click)="changeTheme.emit(theme.light)">
+      <a class="nav-link" id="light" (click)="changeTheme.emit(theme.light)">
         <svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="moon"
           class="svg-inline--fa fa-moon fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
           <path fill="currentColor"
@@ -31,7 +31,7 @@
       </a>
     </li>
     <li class="nav-item">
-      <a routerLink="/default" class="nav-link" id="dark" (click)="changeTheme.emit(theme.dark)">
+      <a class="nav-link" id="dark" (click)="changeTheme.emit(theme.dark)">
         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="moon"
           class="svg-inline--fa fa-moon fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
           <path fill="currentColor"
@@ -42,7 +42,7 @@
       </a>
     </li>
     <li class="nav-item">
-      <a routerLink="/default" routerLinkActive="active" class="nav-link" id="solar"
+      <a routerLinkActive="active" class="nav-link" id="solar"
         (click)="changeSolar.emit();isSolar=!isSolar">
         <svg *ngIf="isSolar" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="sun"
           class="svg-inline--fa fa-sun fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">

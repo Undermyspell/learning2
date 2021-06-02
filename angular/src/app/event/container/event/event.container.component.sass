@@ -6,15 +6,17 @@
   height: 100%
   width: 100%
   padding: 1rem
+  box-sizing: border-box
 
   .event
     border: 1px solid white
     background: var(--bg-nav)
     display: flex
     flex-direction: column
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
 
     .event-pic
-      flex-basis: 50%
+      flex: 0 0 50%
 
       img
         width: 100%
@@ -22,6 +24,9 @@
     .event-content
       padding: 1rem
       color: var(--text)
+      display: flex
+      flex-direction: column
+      height: 100%
 
       button
         border: 1px solid var(--icon-background)
@@ -37,6 +42,7 @@
         margin-top: 2rem
         transition: all 400ms
         filter: grayscale(100%) opacity(0.7)
+        margin-top: auto
 
         &:hover
           filter: grayscale(0%) opacity(1)
