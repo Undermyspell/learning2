@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  firebase: {}
+  firebase: {},
+  api: "http://localhost:8000/api"
 };
 
 /*

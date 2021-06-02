@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  firebase: {}
+  firebase: {},
+  api: "api"
 };

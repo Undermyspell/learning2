@@ -1,0 +1,38 @@
+.event-grid
+  display: grid
+  grid-template-columns: repeat(auto-fill,minmax(250px, 1fr))
+  grid-auto-rows: 400px
+  column-gap: 2rem
+  height: 100%
+  width: 100%
+  padding: 1rem
+
+  .event
+    border: 1px solid white
+    background: var(--bg-nav)
+    display: flex
+    flex-direction: column
+
+    .event-pic
+      flex-basis: 50%
+      // background-repeat: no-repeat
+      // background-size: cover
+
+      img
+        width: 100%
+
+    .event-content
+      padding: 1rem
+
+      button
+        border: 1px solid white
+        background: var(--bg-login)
+        color: currentColor
+        width: 60%
+        padding: 0.5rem
+        outline: none
+        cursor: pointer
+        text-transform: uppercase
+        letter-spacing: 0.3rem
+        font-size: .8rem
+        margin-top: 2rem

@@ -1,3 +1,14 @@
-<p>
-  {{events$ | async | json}}
-</p>
+<div class="event-grid">
+  <div *ngFor="let event of events$ | async" class="event">
+    <div class="event-pic">
+      <img src="https://source.unsplash.com/random/300x200?{{event.event.title}}&sig={{event.sig}}">
+    </div>
+    <div class="event-content">
+      <h2>{{event.event.title}}</h2>
+      <p>{{event.event.description}}</p>
+
+      <button>Register</button>
+    </div>
+  </div>
+
+</div>
