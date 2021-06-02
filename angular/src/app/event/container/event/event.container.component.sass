@@ -15,17 +15,16 @@
 
     .event-pic
       flex-basis: 50%
-      // background-repeat: no-repeat
-      // background-size: cover
 
       img
         width: 100%
 
     .event-content
       padding: 1rem
+      color: var(--text)
 
       button
-        border: 1px solid white
+        border: 1px solid var(--icon-background)
         background: var(--bg-login)
         color: currentColor
         width: 60%
@@ -36,3 +35,8 @@
         letter-spacing: 0.3rem
         font-size: .8rem
         margin-top: 2rem
+        transition: all 400ms
+        filter: grayscale(100%) opacity(0.7)
+
+        &:hover
+          filter: grayscale(0%) opacity(1)
