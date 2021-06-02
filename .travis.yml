@@ -33,7 +33,7 @@ jobs:
   - stage: Build               
     name: "Build Docker NestJs Api Docker Image"           
     script: 
-      - docker build -t eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_NODESERVICE./nestjs-api
+      - docker build -t eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_NODESERVICE ./nestjs-api
       - docker push eu.gcr.io/$GCLOUD_PROJECT_ID/$GCLOUD_NODESERVICE
   - stage: Build               
     name: "Build Docker NodeJS/gRPC-Server Docker Image"           
